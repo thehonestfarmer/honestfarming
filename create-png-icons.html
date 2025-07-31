@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PNG Icon Generator</title>
+</head>
+<body>
+    <h1>PNG Icon Generator for HonestFarming PWA</h1>
+    <canvas id="canvas192" width="192" height="192"></canvas>
+    <canvas id="canvas512" width="512" height="512"></canvas>
+    <div id="output"></div>
+    
+    <script>
+        function createIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Outer square (dark green)
+            ctx.fillStyle = '#15803d';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Middle square (medium green)
+            ctx.fillStyle = '#22c55e';
+            const padding1 = size * 0.125; // 12.5% padding
+            ctx.fillRect(padding1, padding1, size - 2*padding1, size - 2*padding1);
+            
+            // Inner square (light green)
+            ctx.fillStyle = '#4ade80';
+            const padding2 = size * 0.25; // 25% padding
+            ctx.fillRect(padding2, padding2, size - 2*padding2, size - 2*padding2);
+            
+            // Core square (lightest green)
+            ctx.fillStyle = '#86efac';
+            const padding3 = size * 0.375; // 37.5% padding
+            ctx.fillRect(padding3, padding3, size - 2*padding3, size - 2*padding3);
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        // Create 192x192 icon
+        const canvas192 = document.getElementById('canvas192');
+        const dataUrl192 = createIcon(canvas192, 192);
+        
+        // Create 512x512 icon
+        const canvas512 = document.getElementById('canvas512');
+        const dataUrl512 = createIcon(canvas512, 512);
+        
+        // Display results
+        document.getElementById('output').innerHTML = `
+            <h2>192x192 Icon:</h2>
+            <p>Save this as icon-192x192.png</p>
+            <a href="${dataUrl192}" download="icon-192x192.png">Download 192x192 PNG</a>
+            
+            <h2>512x512 Icon:</h2>
+            <p>Save this as icon-512x512.png</p>
+            <a href="${dataUrl512}" download="icon-512x512.png">Download 512x512 PNG</a>
+        `;
+    </script>
+</body>
+</html>

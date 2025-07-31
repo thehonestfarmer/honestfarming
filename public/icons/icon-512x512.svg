@@ -1,0 +1,13 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer square with dark border -->
+  <rect x="0" y="0" width="512" height="512" fill="#15803d" stroke="#1c1917" stroke-width="8"/>
+  
+  <!-- Middle square -->
+  <rect x="64" y="64" width="384" height="384" fill="#22c55e" stroke="#1c1917" stroke-width="6"/>
+  
+  <!-- Inner square -->
+  <rect x="128" y="128" width="256" height="256" fill="#4ade80" stroke="#57534e" stroke-width="4"/>
+  
+  <!-- Core center square -->
+  <rect x="192" y="192" width="128" height="128" fill="#86efac" stroke="#57534e" stroke-width="4"/>
+</svg>

@@ -148,6 +148,19 @@ export default function HonestFarmingLanding() {
                 >
                   Contact
                 </a>
+                
+                {/* Dark Mode Toggle */}
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-stone-700 dark:text-stone-300 font-semibold">Theme</span>
+                  <button
+                    onClick={() => setIsDarkMode(!isDarkMode)}
+                    className="p-2 bg-stone-200 dark:bg-stone-700 border-2 border-stone-800 dark:border-stone-600 hover:bg-stone-300 dark:hover:bg-stone-600 transition-all duration-300 hover:scale-110 hover:rotate-12"
+                    aria-label="Toggle dark mode"
+                  >
+                    {isDarkMode ? <Sun className="w-5 h-5 text-yellow-600" /> : <Moon className="w-5 h-5 text-stone-700" />}
+                  </button>
+                </div>
+                
                 <Button className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold w-full">
                   Subscribe to Updates
                 </Button>
