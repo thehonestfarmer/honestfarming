@@ -64,6 +64,16 @@ export default function HonestFarmingLanding() {
     }
   }
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
+
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-900 font-mono transition-colors duration-300">
       {/* Header */}
@@ -195,6 +205,7 @@ export default function HonestFarmingLanding() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
                 size="lg"
+                onClick={() => scrollToSection('newsletter')}
                 className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
               >
                 Join the Community
@@ -202,6 +213,7 @@ export default function HonestFarmingLanding() {
               <Button
                 size="lg"
                 variant="outline"
+                onClick={() => scrollToSection('divine-logos')}
                 className="border-2 border-stone-800 dark:border-stone-600 text-stone-800 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 font-bold px-8 py-4 text-lg bg-transparent transition-all duration-300 hover:scale-105"
               >
                 Learn More
@@ -212,7 +224,7 @@ export default function HonestFarmingLanding() {
       </section>
 
                 {/* Divine Logos Explanation */}
-      <section className="py-20 bg-stone-200 dark:bg-stone-800 transition-colors duration-300">
+      <section id="divine-logos" className="py-20 bg-stone-200 dark:bg-stone-800 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 mb-12 text-center transition-colors duration-300">
@@ -456,7 +468,7 @@ export default function HonestFarmingLanding() {
       <InteractiveTimeline />
 
       {/* Newsletter Signup */}
-      <section className="py-20 bg-green-700 transition-colors duration-300">
+      <section id="newsletter" className="py-20 bg-green-700 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center space-y-8">
             <h3 className="text-3xl sm:text-4xl font-bold text-white">Plant Seeds of Truth</h3>
