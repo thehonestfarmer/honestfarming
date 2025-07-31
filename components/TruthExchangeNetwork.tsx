@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 
 interface NetworkConfig {
   backgroundColor: string;
@@ -472,28 +472,39 @@ class TruthExchangeNetwork {
     this.bindEvents();
   }
   
+  private resizeTimeoutId: number | null = null;
+  
   private resizeHandler = () => {
-    const rect = this.canvas.getBoundingClientRect();
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    
-    // Set CSS size first
-    this.canvas.style.width = rect.width + 'px';
-    this.canvas.style.height = rect.height + 'px';
-    
-    // Set actual canvas size (for high DPI displays)
-    this.canvas.width = rect.width * devicePixelRatio;
-    this.canvas.height = rect.height * devicePixelRatio;
-    
-    // Scale context for device pixel ratio
-    this.ctx.scale(devicePixelRatio, devicePixelRatio);
-    
-    // Update responsive settings and reinitialize nodes
-    this.updateResponsiveSettings();
-    
-    // Force a redraw with CSS dimensions
-    if (this.animationId !== null) {
-      this.ctx.clearRect(0, 0, rect.width, rect.height);
+    // Throttle resize events to prevent excessive re-renders
+    if (this.resizeTimeoutId) {
+      clearTimeout(this.resizeTimeoutId);
     }
+    
+    this.resizeTimeoutId = window.setTimeout(() => {
+      const rect = this.canvas.getBoundingClientRect();
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      
+      // Set CSS size first
+      this.canvas.style.width = rect.width + 'px';
+      this.canvas.style.height = rect.height + 'px';
+      
+      // Set actual canvas size (for high DPI displays)
+      this.canvas.width = rect.width * devicePixelRatio;
+      this.canvas.height = rect.height * devicePixelRatio;
+      
+      // Scale context for device pixel ratio
+      this.ctx.scale(devicePixelRatio, devicePixelRatio);
+      
+      // Update responsive settings and reinitialize nodes
+      this.updateResponsiveSettings();
+      
+      // Force a redraw with CSS dimensions
+      if (this.animationId !== null) {
+        this.ctx.clearRect(0, 0, rect.width, rect.height);
+      }
+      
+      this.resizeTimeoutId = null;
+    }, 16); // ~60fps throttling
   };
 
   private setupCanvas(): void {
@@ -664,6 +675,10 @@ class TruthExchangeNetwork {
   public destroy(): void {
     this.stop();
     window.removeEventListener('resize', this.resizeHandler);
+    if (this.resizeTimeoutId) {
+      clearTimeout(this.resizeTimeoutId);
+      this.resizeTimeoutId = null;
+    }
   }
   
   public getNetworkStats(): { totalConnections: number; averageConnections: number; clusters: number } {
@@ -712,6 +727,32 @@ export default function TruthExchangeNetworkComponent({
   const [isLoaded, setIsLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Memoize network options to prevent unnecessary re-renders
+  const memoizedNetworkOptions = useMemo(() => {
+    return networkOptions;
+  }, [
+    networkOptions.particleCount,
+    networkOptions.particleSize,
+    networkOptions.maxConnectionDistance,
+    networkOptions.baseSpeed,
+    networkOptions.pulseStrength,
+    networkOptions.connectionOpacity,
+    networkOptions.networkGrowthRate,
+    networkOptions.connectionPersistence,
+    networkOptions.centralGravity,
+    networkOptions.connectionGlow,
+    networkOptions.nodeHierarchy,
+    networkOptions.colorEvolution,
+    networkOptions.focusedClustering,
+    networkOptions.businessTheme,
+    networkOptions.mobile?.particleCount,
+    networkOptions.mobile?.maxDistance,
+    networkOptions.tablet?.particleCount,
+    networkOptions.tablet?.maxDistance,
+    networkOptions.desktop?.particleCount,
+    networkOptions.desktop?.maxDistance
+  ]);
+
   // Intersection Observer for performance optimization
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -733,6 +774,48 @@ export default function TruthExchangeNetworkComponent({
     };
   }, []);
 
+  // Mobile scroll optimization - pause animation during scroll
+  useEffect(() => {
+    if (!animationRef.current) return;
+
+    let scrollTimeout: number | null = null;
+    let isScrolling = false;
+
+    const handleScroll = () => {
+      if (!isScrolling && animationRef.current) {
+        isScrolling = true;
+        // Optionally pause animation during scroll on mobile
+        if (window.innerWidth < 768) {
+          animationRef.current.stop();
+        }
+      }
+
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+
+      scrollTimeout = window.setTimeout(() => {
+        isScrolling = false;
+        if (animationRef.current && window.innerWidth < 768) {
+          animationRef.current.start();
+        }
+        scrollTimeout = null;
+      }, 150);
+    };
+
+    // Only add scroll listener on mobile
+    if (window.innerWidth < 768) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+    };
+  }, [isVisible]);
+
   useEffect(() => {
     if (!canvasRef.current || !isVisible) return;
 
@@ -745,7 +828,7 @@ export default function TruthExchangeNetworkComponent({
 
     const options: AnimationOptions = {
       isDarkMode,
-      ...networkOptions
+      ...memoizedNetworkOptions
     };
 
     animationRef.current = new TruthExchangeNetwork(canvasRef.current, options);
@@ -755,7 +838,7 @@ export default function TruthExchangeNetworkComponent({
     return () => {
       animationRef.current?.destroy();
     };
-  }, [isDarkMode, networkOptions, isVisible]);
+  }, [isDarkMode, memoizedNetworkOptions, isVisible]);
 
   useEffect(() => {
     if (animationRef.current) {
