@@ -16,22 +16,23 @@ export const metadata: Metadata = {
   title: "Honest Farming - Technology for Human Growth",
   description: "Cultivating cooperation with the divine Logos. Truth-driven solutions for authentic communities and transparent systems.",
   manifest: "/manifest.json",
-  themeColor: "#16a34a",
   icons: {
-    icon: '/logo.svg',
-    shortcut: '/logo.svg',
-    apple: '/logo.svg',
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/icons/icon-192x192.png',
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "HonestFarming",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#16a34a",
 };
 
 export default function RootLayout({
