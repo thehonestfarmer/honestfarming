@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Check, Users, BookOpen, Heart, Star, ChevronDown, ChevronUp } from "lucide-react"
+import MobileBackFooter from "@/components/MobileBackFooter"
 
 export default function GardenLanding() {
   const [email, setEmail] = useState("")
@@ -555,6 +556,9 @@ export default function GardenLanding() {
           </div>
         </div>
       </footer>
+      
+      {/* Mobile Back Footer */}
+      <MobileBackFooter />
     </div>
   )
 }

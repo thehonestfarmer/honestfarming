@@ -390,26 +390,32 @@ export default function InteractiveTimeline() {
             </div>
 
             {/* Mobile Navigation */}
-            <div className="sm:hidden flex justify-center gap-3 mb-6">
-              <button
-                onClick={handlePrevious}
-                className="flex items-center gap-2 px-4 py-2 bg-stone-200 dark:bg-stone-600 hover:bg-stone-300 dark:hover:bg-stone-500 border-2 border-stone-800 dark:border-stone-600 transition-all duration-200 text-sm font-semibold"
-                aria-label="Previous timeline stop"
-              >
-                <ChevronLeft size={16} className="text-stone-800 dark:text-stone-200" />
-                Previous
-              </button>
-              <span className="flex items-center px-3 py-2 text-sm text-stone-600 dark:text-stone-400 font-mono">
-                {activeStop + 1} / {timelineData.length}
-              </span>
-              <button
-                onClick={handleNext}
-                className="flex items-center gap-2 px-4 py-2 bg-stone-200 dark:bg-stone-600 hover:bg-stone-300 dark:hover:bg-stone-500 border-2 border-stone-800 dark:border-stone-600 transition-all duration-200 text-sm font-semibold"
-                aria-label="Next timeline stop"
-              >
-                Next
-                <ChevronRight size={16} className="text-stone-800 dark:text-stone-200" />
-              </button>
+            <div className="sm:hidden mb-6">
+              {/* Previous/Next buttons */}
+              <div className="flex justify-center gap-3 mb-3">
+                <button
+                  onClick={handlePrevious}
+                  className="flex items-center gap-2 px-4 py-2 bg-stone-200 dark:bg-stone-600 hover:bg-stone-300 dark:hover:bg-stone-500 border-2 border-stone-800 dark:border-stone-600 transition-all duration-200 text-sm font-semibold"
+                  aria-label="Previous timeline stop"
+                >
+                  <ChevronLeft size={16} className="text-stone-800 dark:text-stone-200" />
+                  Previous
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="flex items-center gap-2 px-4 py-2 bg-stone-200 dark:bg-stone-600 hover:bg-stone-300 dark:hover:bg-stone-500 border-2 border-stone-800 dark:border-stone-600 transition-all duration-200 text-sm font-semibold"
+                  aria-label="Next timeline stop"
+                >
+                  Next
+                  <ChevronRight size={16} className="text-stone-800 dark:text-stone-200" />
+                </button>
+              </div>
+              {/* Progress indicator below buttons */}
+              <div className="flex justify-center">
+                <span className="px-3 py-1 text-sm text-stone-600 dark:text-stone-400 font-mono">
+                  {activeStop + 1} / {timelineData.length}
+                </span>
+              </div>
             </div>
 
             {/* Header Section */}

@@ -74,6 +74,14 @@ export default function HonestFarmingLanding() {
     }
   }
 
+  const handleProductNavigation = () => {
+    try {
+      sessionStorage.setItem('honestfarming-navigation-source', 'main-page')
+    } catch {
+      // Silently fail if sessionStorage is not available
+    }
+  }
+
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-900 font-mono transition-colors duration-300">
       {/* Header */}
@@ -327,7 +335,7 @@ export default function HonestFarmingLanding() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
             {/* TruthExchange Card - Clickable */}
-            <Link href="/truthexchange" className="block">
+            <Link href="/truthexchange" className="block" onClick={handleProductNavigation}>
               <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-all duration-300 product-card overflow-hidden cursor-pointer hover:scale-105">
                 <CardContent className="p-0 m-0">
                   <div className="h-48 bg-gradient-to-br from-blue-400/20 to-blue-600/20 border-b-4 border-stone-800 dark:border-stone-600 flex items-center justify-center">
@@ -361,7 +369,7 @@ export default function HonestFarmingLanding() {
             </Link>
 
             {/* Garden Card - Clickable */}
-            <Link href="/garden" className="block">
+            <Link href="/garden" className="block" onClick={handleProductNavigation}>
               <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-all duration-300 product-card overflow-hidden cursor-pointer hover:scale-105">
                 <CardContent className="p-0 m-0">
                   <div className="h-48 bg-gradient-to-br from-amber-500/20 to-amber-700/20 border-b-4 border-stone-800 dark:border-stone-600 flex items-center justify-center">

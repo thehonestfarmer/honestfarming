@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Search, Users, CheckCircle, AlertTriangle, Eye, Network, FileText, Shield } from "lucide-react"
+import MobileBackFooter from "@/components/MobileBackFooter"
 
 export default function TruthExchangeLanding() {
   const [email, setEmail] = useState("")
@@ -42,7 +43,7 @@ export default function TruthExchangeLanding() {
               onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-sm font-medium px-6 transition-all duration-300"
             >
-              Join the Truth Network
+              Join
             </Button>
           </div>
         </div>
@@ -75,7 +76,7 @@ export default function TruthExchangeLanding() {
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg font-semibold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
             >
-              Join the Truth Network
+              Join
             </Button>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Join researchers, citizens, and truth-seekers building transparent methodology
@@ -399,6 +400,9 @@ export default function TruthExchangeLanding() {
           </div>
         </div>
       </footer>
+      
+      {/* Mobile Back Footer */}
+      <MobileBackFooter />
     </div>
   )
 }
