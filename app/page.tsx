@@ -1,26 +1,251 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Menu, X, Mail, Github, Twitter, Linkedin, MapPin, Sun, Moon } from "lucide-react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import TruthExchangeNetwork, { heroNetworkConfig } from "@/components/TruthExchangeNetwork"
 import InteractiveTimeline from "@/components/InteractiveTimeline"
 
+// Base Card Component with Breathing Animation
+interface CardProps {
+  title: string
+  description: string
+  imageSrc: string
+  imageAlt: string
+}
+
+const BaseCard: React.FC<CardProps> = ({ title, description, imageSrc, imageAlt }) => {
+
+  // Check for reduced motion preference
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+
+    const handleChange = () => setPrefersReducedMotion(mediaQuery.matches)
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
+
+  // Breathing animation - reduced intensity for mobile and accessibility
+  const breathingAnimation = prefersReducedMotion ? false : {
+    scale: [1, 1.03, 1],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut" as const
+    }
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto px-4">
+      <div className="grid md:grid-cols-1 gap-8">
+        <div className="bg-white dark:bg-stone-700 rounded-xl p-6 sm:p-8 border-4 border-stone-800 dark:border-stone-600 shadow-lg transition-all duration-300 min-h-[500px] sm:min-h-[600px]">
+
+          {/* Breathing animated image */}
+          <div className="w-full h-60 sm:h-72 mb-6 sm:mb-8 overflow-hidden rounded-lg border-b-4 border-stone-800 dark:border-stone-600">
+            <motion.img
+              src={imageSrc}
+              alt={imageAlt}
+              className="w-full h-full object-contain"
+              style={{
+                imageRendering: 'pixelated',
+              }}
+              animate={breathingAnimation}
+              loading="lazy"
+            />
+          </div>
+
+          <h4 className="text-xl sm:text-2xl font-bold text-stone-800 dark:text-stone-200 mb-4 sm:mb-6">
+            {title}
+          </h4>
+
+          <p className="text-base sm:text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
+            {description}
+          </p>
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Garden Sticky Scroll Section Component
+const GardenStickyScrollSection: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    // Check for reduced motion preference
+    const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(motionMediaQuery.matches)
+
+    // Check for mobile screen size
+    const mobileMediaQuery = window.matchMedia('(max-width: 768px)')
+    setIsMobile(mobileMediaQuery.matches)
+
+    const handleMotionChange = () => setPrefersReducedMotion(motionMediaQuery.matches)
+    const handleMobileChange = () => setIsMobile(mobileMediaQuery.matches)
+
+    motionMediaQuery.addEventListener('change', handleMotionChange)
+    mobileMediaQuery.addEventListener('change', handleMobileChange)
+
+    return () => {
+      motionMediaQuery.removeEventListener('change', handleMotionChange)
+      mobileMediaQuery.removeEventListener('change', handleMobileChange)
+    }
+  }, [])
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  })
+
+  // Disable sticky scroll effect on mobile or if user prefers reduced motion
+  const shouldUseStaticLayout = isMobile || prefersReducedMotion
+
+  // Card 2 animation: slides up when 50% scrolled with more aggressive spacing
+  const card2Y = useTransform(
+    scrollYProgress,
+    [0, 0.50, 0.75],
+    shouldUseStaticLayout ? ["0%", "0%", "0%"] : ["150%", "0%", "0%"]
+  )
+
+  // Card 3 animation: slides up when 75% scrolled with more aggressive spacing
+  const card3Y = useTransform(
+    scrollYProgress,
+    [0, 0.90, 1.60],
+    shouldUseStaticLayout ? ["0%", "0%", "0%"] : ["200%", "0%", "0%"]
+  )
+
+  // Mobile fallback: render cards in sequence without sticky effect
+  if (shouldUseStaticLayout) {
+    return (
+      <section
+        id="divine-logos"
+        className="py-12 bg-stone-200 dark:bg-stone-800 transition-colors duration-300"
+      >
+        {/* Title */}
+        <div className="container mx-auto px-4 mb-8">
+          <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 text-center transition-colors duration-300">
+            What We Mean by Divine Logos
+          </h3>
+        </div>
+
+        {/* Cards in vertical sequence */}
+        <div className="space-y-8">
+          <BaseCard
+            title="For the philosophically curious"
+            description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality enable authentic human cooperation when we align with them rather than fight against them."
+            imageSrc="/farm-landscapes/pixelated-divine-logos-0.png"
+            imageAlt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
+          />
+
+          <BaseCard
+            title="For the theologically minded"
+            description="The Logos is the divine Word through which all things were made, the source of truth that enables authentic human cooperation to take root."
+            imageSrc="/farm-landscapes/pixelated-divine-logos-1.png"
+            imageAlt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
+          />
+
+          <BaseCard
+            title="For the practically focused"
+            description="Whether you call it natural law, universal reason, or divine ordering - there are underlying principles that, when cultivated properly, enable human growth."
+            imageSrc="/farm-landscapes/pixelated-divine-logos-2.png"
+            imageAlt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
+          />
+        </div>
+      </section>
+    )
+  }
+
+  // Desktop sticky scroll version
+  return (
+    <section
+      id="divine-logos"
+      ref={containerRef}
+      className="relative bg-stone-200 dark:bg-stone-800 transition-colors duration-300"
+    >
+      {/* Title positioned within sticky container */}
+      <div className="container mx-auto px-4 pt-20 pb-8 relative z-40">
+        <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 text-center transition-colors duration-300">
+          What We Mean by Divine Logos
+        </h3>
+      </div>
+
+      {/* Scroll trigger container - defines scroll distance */}
+      <div className="relative h-[1000vh]">
+
+        {/* Sticky cards container */}
+        <div className="sticky top-40 h-screen overflow-hidden">
+
+          {/* Cards container */}
+          <div className="flex items-center justify-center h-full -mt-28">
+
+            {/* Card 1 - Base layer (Always visible) */}
+            <div className="absolute inset-0 z-10 flex justify-center">
+              <BaseCard
+                title="For the philosophically curious"
+                description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality enable authentic human cooperation when we align with them rather than fight against them."
+                imageSrc="/farm-landscapes/pixelated-divine-logos-0.png"
+                imageAlt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
+              />
+            </div>
+
+            {/* Card 2 - Middle layer (Slides up at 33%) */}
+            <motion.div
+              className="absolute inset-0 z-20 flex justify-center"
+              style={{ y: card2Y, willChange: 'transform' }}
+            >
+              <BaseCard
+                title="For the theologically minded"
+                description="The Logos is the divine Word through which all things were made, the source of truth that enables authentic human cooperation to take root."
+                imageSrc="/farm-landscapes/pixelated-divine-logos-1.png"
+                imageAlt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
+              />
+            </motion.div>
+
+            {/* Card 3 - Top layer (Slides up at 66%) */}
+            <motion.div
+              className="absolute inset-0 z-30 flex justify-center"
+              style={{ y: card3Y, willChange: 'transform' }}
+            >
+              <BaseCard
+                title="For the practically focused"
+                description="Whether you call it natural law, universal reason, or divine ordering - there are underlying principles that, when cultivated properly, enable human growth."
+                imageSrc="/farm-landscapes/pixelated-divine-logos-2.png"
+                imageAlt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
+              />
+            </motion.div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function HonestFarmingLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(true)
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
 
   useEffect(() => {
-    // Check for saved theme preference or default to light mode
+    // Check for saved theme preference or default to dark mode
     const savedTheme = localStorage.getItem("theme")
-    if (savedTheme === "dark") {
+    if (savedTheme === "light") {
+      setIsDarkMode(false)
+    } else {
+      // Default to dark mode if no preference is saved
       setIsDarkMode(true)
     }
   }, [])
@@ -67,7 +292,7 @@ export default function HonestFarmingLanding() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ 
+      element.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       })
@@ -130,7 +355,10 @@ export default function HonestFarmingLanding() {
                 {isDarkMode ? <Sun className="w-5 h-5 text-yellow-600" /> : <Moon className="w-5 h-5 text-stone-700" />}
               </button>
 
-              <Button className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold px-6 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              <Button 
+                onClick={() => scrollToSection('newsletter')}
+                className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold px-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
                 Subscribe to Updates
               </Button>
             </nav>
@@ -166,7 +394,7 @@ export default function HonestFarmingLanding() {
                 >
                   Contact
                 </a>
-                
+
                 {/* Dark Mode Toggle */}
                 <div className="flex items-center justify-between py-2">
                   <span className="text-stone-700 dark:text-stone-300 font-semibold">Theme</span>
@@ -178,8 +406,11 @@ export default function HonestFarmingLanding() {
                     {isDarkMode ? <Sun className="w-5 h-5 text-yellow-600" /> : <Moon className="w-5 h-5 text-stone-700" />}
                   </button>
                 </div>
-                
-                <Button className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold w-full">
+
+                <Button 
+                  onClick={() => scrollToSection('newsletter')}
+                  className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold w-full"
+                >
                   Subscribe to Updates
                 </Button>
               </div>
@@ -192,7 +423,7 @@ export default function HonestFarmingLanding() {
       <section className="relative py-32 min-h-[64vh] bg-gradient-to-b from-stone-100 to-stone-200 dark:from-slate-700 dark:to-slate-800 transition-colors duration-300 overflow-hidden">
         {/* TruthExchange Network Background Animation */}
         <div className="absolute inset-0 opacity-50 z-1">
-          <TruthExchangeNetwork 
+          <TruthExchangeNetwork
             isDarkMode={isDarkMode}
             className="w-full h-full hero-network-canvas"
             {...heroNetworkConfig}
@@ -231,94 +462,8 @@ export default function HonestFarmingLanding() {
         </div>
       </section>
 
-                {/* Divine Logos Explanation */}
-      <section id="divine-logos" className="py-20 bg-stone-200 dark:bg-stone-800 transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 mb-12 text-center transition-colors duration-300">
-              What We Mean by Divine Logos
-            </h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Card 1: Philosophical - Abstract Foundation */}
-              <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <CardContent className="p-0">
-                  <div className="divine-logos-image-container">
-                    <img
-                      src="/farm-landscapes/pixelated-divine-logos-0.png"
-                      alt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
-                      className="w-full h-48 object-cover border-b-4 border-stone-800 dark:border-stone-600"
-                      style={{
-                        imageRendering: 'pixelated',
-                      }}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h4 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-4 transition-colors duration-300">
-                      For the philosophically curious
-                    </h4>
-                    <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 transition-colors duration-300 leading-relaxed">
-                    Natural laws govern how seeds become flourishing plants. The same rational principles that order reality enable authentic human cooperation when we align with them rather than fight against them.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Card 2: Theological - Divine Illumination */}
-              <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <CardContent className="p-0">
-                  <div className="divine-logos-image-container">
-                    <img
-                      src="/farm-landscapes/pixelated-divine-logos-1.png"
-                      alt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
-                      className="w-full h-48 object-cover border-b-4 border-stone-800 dark:border-stone-600"
-                      style={{
-                        imageRendering: 'pixelated',
-                      }}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h4 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-4 transition-colors duration-300">
-                      For the theologically minded
-                    </h4>
-                    <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 transition-colors duration-300 leading-relaxed">
-                      The Logos is the divine Word through which all things were made, the source of truth that enables
-                      authentic human cooperation to take root.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Card 3: Practical - Cooperative Flourishing */}
-              <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <CardContent className="p-0">
-                  <div className="divine-logos-image-container">
-                    <img
-                      src="/farm-landscapes/pixelated-divine-logos-2.png"
-                      alt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
-                      className="w-full h-48 object-cover border-b-4 border-stone-800 dark:border-stone-600"
-                      style={{
-                        imageRendering: 'pixelated',
-                      }}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h4 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-4 transition-colors duration-300">
-                      For the practically focused
-                    </h4>
-                    <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 transition-colors duration-300 leading-relaxed">
-                      Whether you call it natural law, universal reason, or divine ordering - there are underlying
-                      principles that, when cultivated properly, enable human growth.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Garden Sticky Scroll Section */}
+      <GardenStickyScrollSection />
 
 
 
@@ -368,9 +513,8 @@ export default function HonestFarmingLanding() {
               </Card>
             </Link>
 
-            {/* Garden Card - Clickable */}
-            <Link href="/garden" className="block" onClick={handleProductNavigation}>
-              <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-all duration-300 product-card overflow-hidden cursor-pointer hover:scale-105">
+            {/* Garden Card - Static (temporarily disabled) */}
+            <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-shadow product-card overflow-hidden">
                 <CardContent className="p-0 m-0">
                   <div className="h-48 bg-gradient-to-br from-amber-500/20 to-amber-700/20 border-b-4 border-stone-800 dark:border-stone-600 flex items-center justify-center">
                     <div className="text-center">
@@ -401,7 +545,6 @@ export default function HonestFarmingLanding() {
                   </div>
                 </CardContent>
               </Card>
-            </Link>
 
             {/* Seurat Card - Static */}
             <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-shadow product-card overflow-hidden">
