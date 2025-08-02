@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+interface SubscriberData {
+  api_key: string
+  email: string
+  fields?: {
+    interest: string
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { email, interest } = await request.json()
@@ -33,7 +41,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Prepare subscriber data with interest field
-    const subscriberData: any = {
+    const subscriberData: SubscriberData = {
       api_key: API_KEY,
       email: email,
     }
