@@ -508,7 +508,7 @@ export default function HonestFarmingLanding() {
               </p>
             )}
             <p className="text-sm text-green-200">
-              No spam, no surveillance capitalism. Just honest updates about our mission.
+              No spam. Just honest updates about our mission.
             </p>
           </div>
         </div>
@@ -608,14 +608,14 @@ export default function HonestFarmingLanding() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail size={16} />
-                  <span>hello@honestfarming.com</span>
+                  <span>thehonestfarmer@proton.me</span>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="border-t border-stone-600 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-stone-400 text-sm">© 2024 Honest Farming. All rights reserved.</p>
+            <p className="text-stone-400 text-sm">© 2025 Honest Farming. All rights reserved.</p>
             <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6 text-sm text-stone-400 mt-4 md:mt-0">
               <a href="#" className="hover:text-green-400 transition-colors">
                 Privacy Policy
