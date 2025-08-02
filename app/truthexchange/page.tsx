@@ -11,13 +11,37 @@ import MobileBackFooter from "@/components/MobileBackFooter"
 export default function TruthExchangeLanding() {
   const [email, setEmail] = useState("")
   const [interest, setInterest] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState("")
 
-  const handleWaitlistSubmit = (e: React.FormEvent) => {
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("TruthExchange waitlist signup:", email, "Interest:", interest)
-    setEmail("")
-    setInterest("")
-    alert("Thank you for joining the TruthExchange waitlist! You'll be notified when we launch the beta.")
+    setIsSubmitting(true)
+    setSubmitMessage("")
+
+    try {
+      const response = await fetch('/api/truthexchange-subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, interest }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSubmitMessage(data.message)
+        setEmail("")
+        setInterest("")
+      } else {
+        setSubmitMessage(data.error || 'Something went wrong. Please try again.')
+      }
+    } catch {
+      setSubmitMessage('Network error. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -330,13 +354,15 @@ export default function TruthExchangeLanding() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full border-0 bg-white text-slate-900 font-medium py-3 px-4 rounded-lg shadow-sm"
+                disabled={isSubmitting}
+                className="w-full border-0 bg-white text-slate-900 font-medium py-3 px-4 rounded-lg shadow-sm disabled:opacity-50"
               />
               
               <select
                 value={interest}
                 onChange={(e) => setInterest(e.target.value)}
-                className="w-full border-0 bg-white text-slate-900 font-medium py-3 px-4 rounded-lg shadow-sm appearance-none cursor-pointer"
+                disabled={isSubmitting}
+                className="w-full border-0 bg-white text-slate-900 font-medium py-3 px-4 rounded-lg shadow-sm appearance-none cursor-pointer disabled:opacity-50"
                 style={{ backgroundImage: "url(\"data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", backgroundSize: "12px" }}
               >
                 <option value="" disabled>What topics are you most interested in verifying?</option>
@@ -350,11 +376,18 @@ export default function TruthExchangeLanding() {
 
               <Button
                 type="submit"
-                className="w-full bg-white hover:bg-slate-50 text-blue-600 border-0 shadow-lg font-semibold py-3 px-8 text-lg transition-all duration-300 hover:scale-105"
+                disabled={isSubmitting}
+                className="w-full bg-white hover:bg-slate-50 text-blue-600 border-0 shadow-lg font-semibold py-3 px-8 text-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Join the Waitlist
+                {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
               </Button>
             </form>
+            
+            {submitMessage && (
+              <div className={`text-sm mt-4 p-3 rounded-lg ${submitMessage.includes('Successfully') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                {submitMessage}
+              </div>
+            )}
             
             <div className="flex items-center justify-center space-x-6 text-blue-200">
               <div className="flex items-center space-x-2">
@@ -367,9 +400,11 @@ export default function TruthExchangeLanding() {
               </div>
             </div>
             
-            <p className="text-sm text-blue-200">
-              You&apos;ll be notified when we launch the beta. No spam, just truth.
-            </p>
+            {!submitMessage && (
+              <p className="text-sm text-blue-200">
+                You&apos;ll be notified when we launch the beta. No spam, just truth.
+              </p>
+            )}
           </div>
         </div>
       </section>
