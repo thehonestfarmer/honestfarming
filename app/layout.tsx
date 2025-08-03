@@ -33,19 +33,19 @@ export const metadata: Metadata = {
     description: "Cultivating cooperation with the divine Logos. Truth-driven solutions for authentic communities and transparent systems.",
     images: [
       {
-        url: '/icons/icon-512x512.png',
-        width: 512,
-        height: 512,
-        alt: 'Honest Farming Logo',
+        url: '/farm-landscapes/pixelated-divine-logos-1.png',
+        width: 800,
+        height: 600,
+        alt: 'Honest Farming - Pixelated farm landscape with divine logos',
       }
     ],
     type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: "Honest Farming - Technology for Human Growth",
     description: "Cultivating cooperation with the divine Logos. Truth-driven solutions for authentic communities and transparent systems.",
-    images: ['/icons/icon-512x512.png'],
+    images: ['/farm-landscapes/pixelated-divine-logos-1.png'],
   },
   appleWebApp: {
     capable: true,
