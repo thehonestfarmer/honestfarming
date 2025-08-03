@@ -180,13 +180,13 @@ export default function July2025NowPage() {
                 </h2>
                 <div className="space-y-4">
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    <strong>Cross-modal learning experiments:</strong> Learning both tango (intuition, feeling, weight shifts) and salsa (technical precision, rhythm-driven) as complementary skills rather than competing approaches. The assumption that "more technical = better" misses half the picture - sustainable mastery requires both systematic execution and intuitive adaptation.
+                    <strong>Cross-modal learning experiments:</strong> Learning both tango (intuition, feeling, weight shifts) and salsa (technical precision, rhythm-driven) as complementary skills rather than competing approaches. The assumption that &quot;more technical = better&quot; misses half the picture - sustainable mastery requires both systematic execution and intuitive adaptation.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
                     <strong>AI coordination limitations:</strong> Prototyping multi-agent systems revealed that Claude Projects and similar tools hit walls when you need persistent, domain-specific intelligence. The general-purpose AI dream breaks down at implementation scale - you need specialized processing pipelines that don&apos;t eat through API budgets.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    <strong>Hierarchical Reasoning Machines:</strong> This challenges the fundamental "scale = intelligence" assumption driving current AI development. What if architectural efficiency matters more than parameter count? Real products need sustainable tokenomics, not just impressive demos.
+                    <strong>Hierarchical Reasoning Machines:</strong> This challenges the fundamental &quot;scale = intelligence&quot; assumption driving current AI development. What if architectural efficiency matters more than parameter count? Real products need sustainable tokenomics, not just impressive demos.
                   </p>
                 </div>
               </div>
@@ -204,7 +204,7 @@ export default function July2025NowPage() {
                 </h2>
                 <div className="space-y-4">
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    <strong>Content processing pipeline:</strong> Building systems that can ingest lectures, academic papers, and complex arguments into queryable knowledge bases. Think "search engine for systematic reasoning patterns" - but with anti-hallucination measures because accuracy matters when processing authoritative sources.
+                    <strong>Content processing pipeline:</strong> Building systems that can ingest lectures, academic papers, and complex arguments into queryable knowledge bases. Think &quot;search engine for systematic reasoning patterns&quot; - but with anti-hallucination measures because accuracy matters when processing authoritative sources.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
                     <strong>Token economics reality check:</strong> Hit the cost wall building consumer AI applications with real user data at scale. Led me down compression algorithms, context optimization, and selective processing. The &quot;just throw more tokens at it&quot; approach doesn&apos;t work for sustainable products.
