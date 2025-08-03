@@ -75,7 +75,7 @@ const config: NetworkConfig = {
   
   baseSpeed: 0.3,
   pulseStrength: 0.2,
-  connectionOpacity: 0.8,
+  connectionOpacity: 0.1,
   
   mobile: { particleCount: 10, maxDistance: 80 },
   tablet: { particleCount: 45, maxDistance: 100 },
