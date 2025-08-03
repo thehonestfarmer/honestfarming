@@ -97,14 +97,21 @@ const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, i
         </div>
 
         {/* Text Section (Bottom 40%) */}
-        <div className="h-2/5 bg-stone-900 p-6 flex flex-col justify-center border-t-4 border-stone-600">
-          <motion.div {...textBoxAnimation} className="text-center max-w-sm mx-auto">
+        <div className="h-2/5 bg-stone-900 p-6 flex flex-col justify-center border-t-4 border-stone-600 pt-36">
+          <motion.div {...textBoxAnimation} className="text-center max-w-sm mx-auto space-y-6">
             <h4 className="text-2xl sm:text-3xl font-bold text-white mb-6 leading-tight">
               {title}
             </h4>
             <p className="text-stone-300 text-lg sm:text-xl leading-relaxed font-medium">
               {description}
             </p>
+            <div className="pt-4 border-t border-stone-700 pt-12">
+              <p className="text-green-400 text-base font-semibold leading-relaxed">
+                {title === "For the philosophically curious" && "Universal principles guide both natural growth and human cooperation"}
+                {title === "For the theologically minded" && "Divine Word as the foundation for truth and authentic community"}
+                {title === "For the practically focused" && "Underlying principles that enable sustainable human flourishing"}
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
