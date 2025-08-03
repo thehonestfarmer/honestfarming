@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Menu, X, Mail, Github, MapPin, Sun, Moon } from "lucide-react"
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import TruthExchangeNetwork, { heroNetworkConfig } from "@/components/TruthExchangeNetwork"
 
 // useMediaQuery hook for responsive behavior
@@ -149,7 +149,6 @@ const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, i
 
 // Garden Sticky Scroll Section Component
 const GardenStickyScrollSection: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   useEffect(() => {
