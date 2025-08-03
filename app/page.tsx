@@ -7,9 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Menu, X, Mail, Github, Twitter, Linkedin, MapPin, Sun, Moon } from "lucide-react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import TruthExchangeNetwork, { heroNetworkConfig } from "@/components/TruthExchangeNetwork"
-import InteractiveTimeline from "@/components/InteractiveTimeline"
 
 // useMediaQuery hook for responsive behavior
 const useMediaQuery = (query: string) => {
@@ -96,7 +95,7 @@ const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, i
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-stone-900/20" />
         </div>
-        
+
         {/* Text Section (Bottom 40%) */}
         <div className="h-2/5 bg-stone-900 p-6 flex flex-col justify-center border-t-4 border-stone-600">
           <motion.div {...textBoxAnimation}>
@@ -122,20 +121,20 @@ const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, i
           src={imageSrc}
           alt={imageAlt}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ 
+          style={{
             imageRendering: 'pixelated',
             willChange: 'transform'
           }}
           animate={desktopBreathingAnimation}
           loading="lazy"
         />
-        
+
         {/* Gradient overlay for better text contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-        
+
         {/* Floating text box */}
         <div className={`absolute ${textPosition} z-10`}>
-          <motion.div 
+          <motion.div
             className="floating-text-card rounded-lg p-6 shadow-xl mx-4"
             {...textBoxAnimation}
           >
@@ -152,26 +151,18 @@ const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, i
 const GardenStickyScrollSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     // Check for reduced motion preference
     const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setPrefersReducedMotion(motionMediaQuery.matches)
 
-    // Check for mobile screen size
-    const mobileMediaQuery = window.matchMedia('(max-width: 768px)')
-    setIsMobile(mobileMediaQuery.matches)
-
     const handleMotionChange = () => setPrefersReducedMotion(motionMediaQuery.matches)
-    const handleMobileChange = () => setIsMobile(mobileMediaQuery.matches)
 
     motionMediaQuery.addEventListener('change', handleMotionChange)
-    mobileMediaQuery.addEventListener('change', handleMobileChange)
 
     return () => {
       motionMediaQuery.removeEventListener('change', handleMotionChange)
-      mobileMediaQuery.removeEventListener('change', handleMobileChange)
     }
   }, [])
 
@@ -201,7 +192,7 @@ const GardenStickyScrollSection: React.FC = () => {
 
   // Determine which card should have breathing animation based on scroll progress
   const [currentScrollProgress, setCurrentScrollProgress] = useState(0)
-  
+
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (latest) => {
       setCurrentScrollProgress(latest)
@@ -326,37 +317,325 @@ const GardenStickyScrollSection: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* Section footer with farmer-programmer image to reduce dead space */}
-      <div className="relative bg-stone-100 dark:bg-stone-700 pb-20 pt-16">
-        <div className="container mx-auto px-4">
-          {/* Image and content container */}
-          <div className="max-w-4xl mx-auto">
-            {/* Farmer programmer image */}
-            <div className="mb-12 flex justify-center">
-              <div className="relative w-full max-w-2xl aspect-[4/3] overflow-hidden rounded-xl border-4 border-stone-800 dark:border-stone-600 shadow-2xl">
-                <img
-                  src="/farmer-programmer.png"
-                  alt="Pixelated scene of a programmer working at a desk with a view of pastoral farmland through a window"
-                  className="w-full h-full object-cover"
-                  style={{ imageRendering: 'pixelated' }}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+    </section>
+  )
+}
+
+// Concluding Section Component with Conditional Rendering
+const ConcludingSection: React.FC = () => {
+  const isMobile = useMediaQuery('(max-width: 768px)')
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { 
+    once: true, 
+    margin: "-100px 0px -100px 0px" 
+  })
+
+  // Animation variants for text content
+  const textVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 30 
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.8, 
+        ease: "easeOut" 
+      }
+    }
+  }
+
+  const staggeredVariants = {
+    hidden: { 
+      opacity: 0 
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2
+      }
+    }
+  }
+  const aboutHeading = "I left Silicon Valley to start a farm in rural Japan"
+  const aboutText = "After years building software products, I realized something was missing. \n\n Technology without wisdom, innovation without roots. \n\n So I moved to rural Japan to rethink how we build."
+
+  if (isMobile) {
+    // Mobile Layout - Stacked vertical
+    return (
+      <section ref={ref} className="bg-stone-900 py-12">
+        {/* Image section */}
+        <div className="h-64 mb-8 rounded-xl overflow-hidden mx-4">
+          <motion.img
+            src="/farmer-programmer.png"
+            alt="Pixelated scene of a programmer working at a desk with a view of pastoral farmland through a window"
+            className="w-full h-full object-contain"
+            style={{ imageRendering: 'pixelated' }}
+            animate={{
+              scale: [1, 1.02, 1],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            loading="lazy"
+          />
+        </div>
+
+        {/* Text content with animations */}
+        <motion.div 
+          className="text-center px-4"
+          variants={staggeredVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <motion.h3 
+            className="text-2xl font-bold text-white mb-4"
+            variants={textVariants}
+          >
+            {aboutHeading}
+          </motion.h3>
+          <motion.p 
+            className="text-base text-stone-300 leading-relaxed mb-6"
+            variants={textVariants}
+          >
+            {aboutText}
+          </motion.p>
+          <motion.div
+            variants={textVariants}
+          >
+            <Link 
+              href="/about"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 hover:bg-green-800 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              Read the Full Story
+              <span className="text-lg">→</span>
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+    )
+  }
+
+  // Desktop Layout - Split horizontal
+  return (
+    <section ref={ref} className="bg-stone-800">
+      <div className="grid lg:grid-cols-2 min-h-screen">
+        {/* Left half - Background image */}
+        <div className="relative overflow-hidden">
+          <motion.img
+            src="/farmer-programmer.png"
+            alt="Pixelated scene of a programmer working at a desk with a view of pastoral farmland through a window"
+            className="w-full h-full object-cover"
+            style={{ imageRendering: 'pixelated' }}
+            animate={{
+              scale: [1, 1.03, 1],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            loading="lazy"
+          />
+        </div>
+
+        {/* Right half - Text content with animations */}
+        <div className="flex items-center justify-center p-12 bg-stone-900">
+          <motion.div 
+            className="max-w-lg"
+            variants={staggeredVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            <motion.h3 
+              className="text-4xl font-bold text-white mb-8 leading-tight"
+              variants={textVariants}
+            >
+            {aboutHeading}
+            </motion.h3>
+            <motion.p 
+              className="text-xl text-stone-300 leading-relaxed mb-8"
+              variants={textVariants}
+            >
+              {aboutText}
+            </motion.p>
+            <motion.div
+              variants={textVariants}
+            >
+              <Link 
+                href="/about"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-green-700 hover:bg-green-800 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                Read the Full Story
+                <span className="text-xl">→</span>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// Building Today Section Component
+const BuildingTodaySection: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { 
+    once: true, 
+    margin: "-100px 0px -100px 0px" 
+  })
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 20 
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.6, 
+        ease: "easeOut" 
+      }
+    }
+  }
+
+  return (
+    <section id="mission" ref={ref} className="py-20 bg-stone-100 dark:bg-stone-700 transition-colors duration-300">
+      <div className="container mx-auto px-4">
+        <div className="max-w-5xl mx-auto">
+          <motion.div 
+            className="bg-white dark:bg-stone-800 border-4 border-stone-800 dark:border-stone-600 shadow-lg p-8 transition-all duration-300"
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            {/* Header */}
+            <motion.div className="text-center mb-10" variants={itemVariants}>
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <span className="text-5xl" 
+                  style={{
+                    imageRendering: 'pixelated',
+                  }}>
+                  🚀
+                </span>
+                <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200">
+                  Building Today
+                </h3>
               </div>
+            </motion.div>
+
+            <div className="space-y-10">
+              {/* Mission Statement */}
+              <motion.div className="text-center" variants={itemVariants}>
+                <p className="text-xl sm:text-2xl text-stone-800 dark:text-stone-200 leading-relaxed font-semibold">
+                  We&apos;re building technology that serves human flourishing
+                </p>
+              </motion.div>
+
+              {/* Focus Areas Section */}
+              <motion.div className="text-left" variants={itemVariants}>
+                <h4 className="text-2xl font-bold text-stone-800 dark:text-stone-200 mb-8 text-center">
+                  Focus Areas
+                </h4>
+                
+                <div className="grid gap-6">
+                  {/* Blockchain Focus Area */}
+                  <motion.div 
+                    className="group bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 border-2 border-green-200 dark:border-green-700 p-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-green-400 dark:hover:border-green-500"
+                    variants={itemVariants}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-green-600 dark:bg-green-500 border-2 border-stone-800 dark:border-stone-600 flex items-center justify-center text-lg transition-transform duration-300 group-hover:scale-110"
+                        style={{
+                          imageRendering: 'pixelated',
+                        }}>
+                        🔗
+                      </div>
+                      <div className="flex-1">
+                        <h5 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-2">
+                          Blockchain as truth infrastructure
+                        </h5>
+                        <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
+                          Using decentralized consensus to build genuine cooperation between people
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* AI Focus Area */}
+                  <motion.div 
+                    className="group bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border-2 border-blue-200 dark:border-blue-700 p-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-blue-400 dark:hover:border-blue-500"
+                    variants={itemVariants}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 border-2 border-stone-800 dark:border-stone-600 flex items-center justify-center text-lg transition-transform duration-300 group-hover:scale-110"
+                        style={{
+                          imageRendering: 'pixelated',
+                        }}>
+                        🧠
+                      </div>
+                      <div className="flex-1">
+                        <h5 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-2">
+                          AI that amplifies rather than replaces
+                        </h5>
+                        <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
+                          Technology that enhances human reasoning and creativity
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Network States Focus Area */}
+                  <motion.div 
+                    className="group bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 border-2 border-purple-200 dark:border-purple-700 p-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-purple-400 dark:hover:border-purple-500"
+                    variants={itemVariants}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-purple-600 dark:bg-purple-500 border-2 border-stone-800 dark:border-stone-600 flex items-center justify-center text-lg transition-transform duration-300 group-hover:scale-110"
+                        style={{
+                          imageRendering: 'pixelated',
+                        }}>
+                        🌐
+                      </div>
+                      <div className="flex-1">
+                        <h5 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-2">
+                          Network states and coordination
+                        </h5>
+                        <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
+                          New models for human organization that unlock human capital
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Impact Statement */}
+              <motion.div 
+                className="text-center pt-6 border-t border-stone-300 dark:border-stone-500"
+                variants={itemVariants}
+              >
+                <p className="text-lg sm:text-xl text-stone-800 dark:text-stone-200 leading-relaxed font-semibold">
+                  The underutilization of human potential is one of our most critical problems. Technology should amplify what makes us human, not exploit our weaknesses.
+                </p>
+              </motion.div>
             </div>
-            
-            {/* Text content */}
-            <div className="text-center">
-              <div className="w-16 h-1 bg-stone-400 dark:bg-stone-600 mx-auto mb-8"></div>
-              <p className="text-stone-600 dark:text-stone-400 text-lg font-medium mb-4">
-                Three perspectives, one foundation of truth
-              </p>
-              <p className="text-stone-500 dark:text-stone-500 text-sm italic max-w-md mx-auto">
-                Technology cultivated with wisdom, rooted in eternal principles
-              </p>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -459,23 +738,23 @@ export default function HonestFarmingLanding() {
             {/* Desktop Navigation with dark mode toggle */}
             <nav className="hidden md:flex items-center space-x-8">
               <a
+                href="#mission"
+                className="text-stone-700 dark:text-stone-300 hover:text-green-700 dark:hover:text-green-400 font-semibold transition-colors duration-300"
+              >
+                Mission
+              </a>
+              <a
                 href="#products"
                 className="text-stone-700 dark:text-stone-300 hover:text-green-700 dark:hover:text-green-400 font-semibold transition-colors duration-300"
               >
                 Products
               </a>
-              <a
-                href="#founder-story"
+              <Link
+                href="/about"
                 className="text-stone-700 dark:text-stone-300 hover:text-green-700 dark:hover:text-green-400 font-semibold transition-colors duration-300"
               >
                 About
-              </a>
-              <a
-                href="#contact"
-                className="text-stone-700 dark:text-stone-300 hover:text-green-700 dark:hover:text-green-400 font-semibold transition-colors duration-300"
-              >
-                Contact
-              </a>
+              </Link>
 
               {/* Dark Mode Toggle */}
               <button
@@ -486,7 +765,7 @@ export default function HonestFarmingLanding() {
                 {isDarkMode ? <Sun className="w-5 h-5 text-yellow-600" /> : <Moon className="w-5 h-5 text-stone-700" />}
               </button>
 
-              <Button 
+              <Button
                 onClick={() => scrollToSection('newsletter')}
                 className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold px-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
               >
@@ -508,23 +787,23 @@ export default function HonestFarmingLanding() {
             <nav className="md:hidden mt-4 pb-4 border-t-2 border-stone-300 pt-4">
               <div className="flex flex-col space-y-4">
                 <a
+                  href="#mission"
+                  className="text-stone-700 dark:text-stone-300 hover:text-green-700 dark:hover:text-green-400 font-semibold transition-colors duration-300"
+                >
+                  Mission
+                </a>
+                <a
                   href="#products"
                   className="text-stone-700 dark:text-stone-300 hover:text-green-700 dark:hover:text-green-400 font-semibold transition-colors duration-300"
                 >
                   Products
                 </a>
-                <a
-                  href="#founder-story"
+                <Link
+                  href="/about"
                   className="text-stone-700 dark:text-stone-300 hover:text-green-700 dark:hover:text-green-400 font-semibold transition-colors duration-300"
                 >
                   About
-                </a>
-                <a
-                  href="#contact"
-                  className="text-stone-700 dark:text-stone-300 hover:text-green-700 dark:hover:text-green-400 font-semibold transition-colors duration-300"
-                >
-                  Contact
-                </a>
+                </Link>
 
                 {/* Dark Mode Toggle */}
                 <div className="flex items-center justify-between py-2">
@@ -538,7 +817,7 @@ export default function HonestFarmingLanding() {
                   </button>
                 </div>
 
-                <Button 
+                <Button
                   onClick={() => scrollToSection('newsletter')}
                   className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold w-full"
                 >
@@ -596,8 +875,11 @@ export default function HonestFarmingLanding() {
       {/* Garden Sticky Scroll Section */}
       <GardenStickyScrollSection />
 
-      {/* Interactive Timeline */}
-      <InteractiveTimeline />
+      {/* Concluding Section */}
+      <ConcludingSection />
+
+      {/* Building Today Section */}
+      <BuildingTodaySection />
 
       {/* Product Showcase */}
       <section id="products" className="py-20 bg-stone-200 dark:bg-stone-800 transition-colors duration-300">
@@ -647,36 +929,36 @@ export default function HonestFarmingLanding() {
 
             {/* Garden Card - Static (temporarily disabled) */}
             <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-shadow product-card overflow-hidden">
-                <CardContent className="p-0 m-0">
-                  <div className="h-48 bg-gradient-to-br from-amber-500/20 to-amber-700/20 border-b-4 border-stone-800 dark:border-stone-600 flex items-center justify-center">
-                    <div className="text-center">
-                      <img
-                        src="/garden-logo-1.png"
-                        alt="Garden logo - cross with growing leaves representing Christian apologetics"
-                        className="w-24 h-24 mx-auto mb-3 object-contain"
-                        style={{
-                          imageRendering: 'pixelated',
-                          transform: 'scale(1.15)',
-                        }}
-                      />
-                      <p className="text-stone-700 dark:text-stone-300 font-semibold">Newsletter & Wisdom</p>
-                    </div>
+              <CardContent className="p-0 m-0">
+                <div className="h-48 bg-gradient-to-br from-amber-500/20 to-amber-700/20 border-b-4 border-stone-800 dark:border-stone-600 flex items-center justify-center">
+                  <div className="text-center">
+                    <img
+                      src="/garden-logo-1.png"
+                      alt="Garden logo - cross with growing leaves representing Christian apologetics"
+                      className="w-24 h-24 mx-auto mb-3 object-contain"
+                      style={{
+                        imageRendering: 'pixelated',
+                        transform: 'scale(1.15)',
+                      }}
+                    />
+                    <p className="text-stone-700 dark:text-stone-300 font-semibold">Newsletter & Wisdom</p>
                   </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-3">
-                      <h4 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 transition-colors duration-300">
-                        Garden
-                      </h4>
-                      <span className="text-xs sm:text-sm px-2 py-1 border font-semibold whitespace-nowrap bg-amber-200 text-amber-800 border-amber-600">
-                        Launching Q3 2025
-                      </span>
-                    </div>
-                    <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 transition-colors duration-300 leading-relaxed">
-                      Cultivating apologetic wisdom for faithful families. AI-curated truth without bias or manipulation.
-                    </p>
+                </div>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <h4 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 transition-colors duration-300">
+                      Garden
+                    </h4>
+                    <span className="text-xs sm:text-sm px-2 py-1 border font-semibold whitespace-nowrap bg-amber-200 text-amber-800 border-amber-600">
+                      Launching Q3 2025
+                    </span>
                   </div>
-                </CardContent>
-              </Card>
+                  <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 transition-colors duration-300 leading-relaxed">
+                    Cultivating apologetic wisdom for faithful families. AI-curated truth without bias or manipulation.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Seurat Card - Static */}
             <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-shadow product-card overflow-hidden">
