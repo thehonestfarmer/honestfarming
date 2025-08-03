@@ -473,9 +473,10 @@ class TruthExchangeNetwork {
   }
   
   private resizeTimeoutId: number | null = null;
+  private lastCanvasSize: { width: number; height: number } | null = null;
   
   private resizeHandler = () => {
-    // Throttle resize events to prevent excessive re-renders
+    // Only throttle, don't debounce aggressively
     if (this.resizeTimeoutId) {
       clearTimeout(this.resizeTimeoutId);
     }
@@ -483,6 +484,16 @@ class TruthExchangeNetwork {
     this.resizeTimeoutId = window.setTimeout(() => {
       const rect = this.canvas.getBoundingClientRect();
       const devicePixelRatio = window.devicePixelRatio || 1;
+      
+      // Check if size actually changed significantly
+      if (this.lastCanvasSize && 
+          Math.abs(this.lastCanvasSize.width - rect.width) < 3 && 
+          Math.abs(this.lastCanvasSize.height - rect.height) < 3) {
+        this.resizeTimeoutId = null;
+        return;
+      }
+      
+      this.lastCanvasSize = { width: rect.width, height: rect.height };
       
       // Set CSS size first
       this.canvas.style.width = rect.width + 'px';
@@ -498,13 +509,8 @@ class TruthExchangeNetwork {
       // Update responsive settings and reinitialize nodes
       this.updateResponsiveSettings();
       
-      // Force a redraw with CSS dimensions
-      if (this.animationId !== null) {
-        this.ctx.clearRect(0, 0, rect.width, rect.height);
-      }
-      
       this.resizeTimeoutId = null;
-    }, 16); // ~60fps throttling
+    }, 100);
   };
 
   private setupCanvas(): void {
@@ -811,7 +817,11 @@ export default function TruthExchangeNetworkComponent({
       className={`block w-full h-full ${className}`}
       style={{ 
         opacity: isLoaded ? 1 : 0,
-        transition: 'opacity 0.3s ease-in-out'
+        transition: 'opacity 0.3s ease-in-out',
+        contain: 'layout style paint size',
+        isolation: 'isolate',
+        transform: 'translateZ(0)', // Force GPU layer
+        overflowAnchor: 'none' // Prevent scroll anchoring
       }}
       aria-hidden="true"
       role="img"

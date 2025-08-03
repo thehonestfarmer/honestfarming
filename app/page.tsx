@@ -166,42 +166,13 @@ const GardenStickyScrollSection: React.FC = () => {
     }
   }, [])
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  })
-
   // Disable sticky scroll effect only if user prefers reduced motion
   const shouldUseStaticLayout = prefersReducedMotion
 
-  // Card 2 animation: slides up when 33% scrolled
-  const card2Y = useTransform(
-    scrollYProgress,
-    [0, 0.33, 1],
-    shouldUseStaticLayout ? ["0%", "0%", "0%"] : ["150%", "0%", "0%"]
-  )
-
-  // Card 3 animation: slides up when 66% scrolled, slides back down when scrolling up
-  const card3Y = useTransform(
-    scrollYProgress,
-    [0, 0.66, 1],
-    shouldUseStaticLayout ? ["0%", "0%", "0%"] : ["200%", "0%", "0%"]
-  )
-
-  // Determine which card should have breathing animation based on scroll progress
-  const [currentScrollProgress, setCurrentScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (latest) => {
-      setCurrentScrollProgress(latest)
-    })
-    return unsubscribe
-  }, [scrollYProgress])
-
-  // Only animate the topmost visible card
-  const shouldAnimateCard1 = currentScrollProgress < 0.33
-  const shouldAnimateCard2 = currentScrollProgress >= 0.33 && currentScrollProgress < 0.66
-  const shouldAnimateCard3 = currentScrollProgress >= 0.66
+  // For the simplified approach, all cards can breathe since they're separate sections
+  const shouldAnimateCard1 = true
+  const shouldAnimateCard2 = true  
+  const shouldAnimateCard3 = true
 
   // Mobile fallback: render cards in sequence without sticky effect
   if (shouldUseStaticLayout) {
@@ -247,75 +218,58 @@ const GardenStickyScrollSection: React.FC = () => {
     )
   }
 
-  // Desktop sticky scroll version
+  // Desktop sticky scroll version - simplified approach
   return (
-    <section
-      id="divine-logos"
-      ref={containerRef}
-      className="relative bg-stone-200 dark:bg-stone-800 transition-colors duration-300"
-    >
-      {/* Title positioned within sticky container */}
-      <div className="container mx-auto px-4 pt-20 pb-8 relative z-40">
+    <div id="divine-logos" className="bg-stone-200 dark:bg-stone-800 transition-colors duration-300">
+      {/* Title */}
+      <div className="container mx-auto px-4 pt-20 pb-8">
         <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 text-center transition-colors duration-300">
           What We Mean by Divine Logos
         </h3>
       </div>
 
-      {/* Scroll trigger container - defines scroll distance */}
-      <div className="relative h-[640vh] md:h-[640vh] sm:h-[500vh]">
-
-        {/* Sticky cards container */}
-        <div className="sticky top-40 md:top-40 mobile-sticky-container h-screen overflow-hidden bg-stone-200 dark:bg-stone-800">
-
-          {/* Cards container */}
-          <div className="flex items-center justify-center h-full -mt-28 bg-stone-200 dark:bg-stone-800">
-
-            {/* Card 1 - Base layer (Always visible) */}
-            <div className="absolute inset-0 z-10">
-              <FloatingTextCard
-                title="For the philosophically curious"
-                description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality can enable authentic human cooperation."
-                imageSrc="/farm-landscapes/pixelated-divine-logos-0.png"
-                imageAlt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
-                textPosition="top-2/3 left-8 right-8 transform -translate-y-1/8 text-justify"
-                disableBreathing={!shouldAnimateCard1}
-              />
-            </div>
-
-            {/* Card 2 - Middle layer (Slides up at 33%) */}
-            <motion.div
-              className="absolute inset-0 z-20 scroll-transform-layer"
-              style={{ y: card2Y }}
-            >
-              <FloatingTextCard
-                title="For the theologically minded"
-                description="The Logos is the divine Word through which all things were made, the source of truth that enables authentic human cooperation to take root."
-                imageSrc="/farm-landscapes/pixelated-divine-logos-1.png"
-                imageAlt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
-                textPosition="bottom-8 left-8 w-1/2 flex justify-center"
-                disableBreathing={!shouldAnimateCard2}
-              />
-            </motion.div>
-
-            {/* Card 3 - Top layer (Slides up at 66%) */}
-            <motion.div
-              className="absolute inset-0 z-30 scroll-transform-layer"
-              style={{ y: card3Y }}
-            >
-              <FloatingTextCard
-                title="For the practically focused"
-                description="Whether you call it natural law, universal reason, or divine ordering - there are underlying principles that, when cultivated properly, enable human growth."
-                imageSrc="/farm-landscapes/pixelated-divine-logos-2.png"
-                imageAlt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
-                textPosition="bottom-8 left-1/2 transform -translate-x-1/2"
-                disableBreathing={!shouldAnimateCard3}
-              />
-            </motion.div>
-
-          </div>
+      {/* Card 1 - Sticky section */}
+      <section className="sticky top-20 h-screen bg-stone-200 dark:bg-stone-800 z-10 mt-12">
+        <div className="h-full flex items-center justify-center px-0 md:px-8 py-24">
+          <FloatingTextCard
+            title="For the philosophically curious"
+            description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality can enable authentic human cooperation."
+            imageSrc="/farm-landscapes/pixelated-divine-logos-0.png"
+            imageAlt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
+            textPosition="top-2/3 left-8 right-8 transform -translate-y-1/8 text-justify"
+            disableBreathing={!shouldAnimateCard1}
+          />
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Card 2 - Sticky section */}
+      <section className="sticky top-20 h-screen bg-stone-200 dark:bg-stone-800 z-20">
+        <div className="h-full flex items-center justify-center px-0 md:px-8 py-24">
+          <FloatingTextCard
+            title="For the theologically minded"
+            description="The Logos is the divine Word through which all things were made, the source of truth that enables authentic human cooperation to take root."
+            imageSrc="/farm-landscapes/pixelated-divine-logos-1.png"
+            imageAlt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
+            textPosition="bottom-8 left-8 w-1/2 flex justify-center"
+            disableBreathing={!shouldAnimateCard2}
+          />
+        </div>
+      </section>
+
+      {/* Card 3 - Sticky section */}
+      <section className="sticky top-20 h-screen bg-stone-200 dark:bg-stone-800 z-30">
+        <div className="h-full flex items-center justify-center px-0 md:px-8 py-24">
+          <FloatingTextCard
+            title="For the practically focused"
+            description="Whether you call it natural law, universal reason, or divine ordering - there are underlying principles that, when cultivated properly, enable human growth."
+            imageSrc="/farm-landscapes/pixelated-divine-logos-2.png"
+            imageAlt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
+            textPosition="bottom-8 left-1/2 transform -translate-x-1/2"
+            disableBreathing={!shouldAnimateCard3}
+          />
+        </div>
+      </section>
+    </div>
   )
 }
 
@@ -485,12 +439,15 @@ const BuildingTodaySection: React.FC = () => {
     once: true, 
     margin: "-100px 0px -100px 0px" 
   })
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
+
+  // Disable animations on mobile to prevent scroll jumping
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: isMobile ? 1 : 0 },
     visible: {
       opacity: 1,
-      transition: {
+      transition: isMobile ? {} : {
         staggerChildren: 0.2,
         delayChildren: 0.1
       }
@@ -499,13 +456,13 @@ const BuildingTodaySection: React.FC = () => {
 
   const itemVariants = {
     hidden: { 
-      opacity: 0, 
-      y: 20 
+      opacity: isMobile ? 1 : 0, 
+      y: isMobile ? 0 : 20 
     },
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { 
+      transition: isMobile ? {} : { 
         duration: 0.6, 
         ease: "easeOut" as const
       }
@@ -646,6 +603,7 @@ export default function HonestFarmingLanding() {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
+  
 
   useEffect(() => {
     // Check for saved theme preference or default to dark mode
@@ -1453,6 +1411,19 @@ export default function HonestFarmingLanding() {
 
         .dark .scroll-transform-layer {
           background-color: #292524; /* stone-800 */
+        }
+
+        /* Simple scroll anchoring fixes */
+        html {
+          overflow-anchor: none;
+        }
+        
+        #divine-logos {
+          overflow-anchor: none;
+        }
+        
+        #mission {
+          overflow-anchor: none;
         }
 
         /* Responsive text sizing */
