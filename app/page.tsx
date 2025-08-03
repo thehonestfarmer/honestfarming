@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Menu, X, Mail, Github, Twitter, Linkedin, MapPin, Sun, Moon } from "lucide-react"
+import { Menu, X, Mail, Github, MapPin, Sun, Moon } from "lucide-react"
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import TruthExchangeNetwork, { heroNetworkConfig } from "@/components/TruthExchangeNetwork"
 
