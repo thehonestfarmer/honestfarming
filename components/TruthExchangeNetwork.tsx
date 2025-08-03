@@ -774,47 +774,6 @@ export default function TruthExchangeNetworkComponent({
     };
   }, []);
 
-  // Mobile scroll optimization - pause animation during scroll
-  useEffect(() => {
-    if (!animationRef.current) return;
-
-    let scrollTimeout: number | null = null;
-    let isScrolling = false;
-
-    const handleScroll = () => {
-      if (!isScrolling && animationRef.current) {
-        isScrolling = true;
-        // Optionally pause animation during scroll on mobile
-        if (window.innerWidth < 768) {
-          animationRef.current.stop();
-        }
-      }
-
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-
-      scrollTimeout = window.setTimeout(() => {
-        isScrolling = false;
-        if (animationRef.current && window.innerWidth < 768) {
-          animationRef.current.start();
-        }
-        scrollTimeout = null;
-      }, 150);
-    };
-
-    // Only add scroll listener on mobile
-    if (window.innerWidth < 768) {
-      window.addEventListener('scroll', handleScroll, { passive: true });
-    }
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-    };
-  }, [isVisible]);
 
   useEffect(() => {
     if (!canvasRef.current || !isVisible) return;
