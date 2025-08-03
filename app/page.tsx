@@ -98,11 +98,11 @@ const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, i
 
         {/* Text Section (Bottom 40%) */}
         <div className="h-2/5 bg-stone-900 p-6 flex flex-col justify-center border-t-4 border-stone-600">
-          <motion.div {...textBoxAnimation}>
-            <h4 className="text-xl sm:text-2xl font-bold text-white mb-4 leading-tight">
+          <motion.div {...textBoxAnimation} className="text-center max-w-sm mx-auto">
+            <h4 className="text-2xl sm:text-3xl font-bold text-white mb-6 leading-tight">
               {title}
             </h4>
-            <p className="text-stone-300 text-base sm:text-lg leading-relaxed">
+            <p className="text-stone-300 text-lg sm:text-xl leading-relaxed font-medium">
               {description}
             </p>
           </motion.div>
@@ -364,7 +364,7 @@ const ConcludingSection: React.FC = () => {
     return (
       <section ref={ref} className="bg-stone-900 py-12">
         {/* Image section */}
-        <div className="h-64 mb-8 rounded-xl overflow-hidden mx-4">
+        <div className="h-72 mb-8 rounded-xl overflow-hidden mx-4">
           <motion.img
             src="/farmer-programmer.png"
             alt="Pixelated scene of a programmer working at a desk with a view of pastoral farmland through a window"
@@ -1088,24 +1088,17 @@ export default function HonestFarmingLanding() {
                     TruthExchange
                   </a>
                 </li>
-                <li>
-                  <a href="#" className="hover:text-green-400 transition-colors">
-                    Garden
-                  </a>
+                <li className="flex items-center gap-2">
+                  <span className="text-stone-500">Garden</span>
+                  <span className="text-xs px-1.5 py-0.5 bg-gray-200 text-gray-800 border border-gray-600 font-semibold whitespace-nowrap">Coming Soon</span>
                 </li>
-                <li>
-                  <a href="#" className="hover:text-green-400 transition-colors">
-                    Seurat
-                  </a>
+                <li className="flex items-center gap-2">
+                  <span className="text-stone-500">Seurat</span>
+                  <span className="text-xs px-1.5 py-0.5 bg-gray-200 text-gray-800 border border-gray-600 font-semibold whitespace-nowrap">Coming Soon</span>
                 </li>
                 <li>
                   <a href="https://www.happyhomejapan.com/" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition-colors">
                     HappyHomeJapan
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-green-400 transition-colors">
-                    Open Source
                   </a>
                 </li>
               </ul>
@@ -1124,30 +1117,14 @@ export default function HonestFarmingLanding() {
                     Mission
                   </a>
                 </li>
-                <li>
-                  <a href="#" className="hover:text-green-400 transition-colors">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-green-400 transition-colors">
-                    Careers
-                  </a>
-                </li>
               </ul>
             </div>
 
             <div className="space-y-4">
               <h5 className="text-lg font-bold">Connect</h5>
               <div className="flex space-x-4">
-                <a href="#" className="text-stone-300 hover:text-green-400 transition-colors">
+                <a href="https://github.com/thehonestfarmer/" target="_blank" rel="noopener noreferrer" className="text-stone-300 hover:text-green-400 transition-colors">
                   <Github size={24} />
-                </a>
-                <a href="#" className="text-stone-300 hover:text-green-400 transition-colors">
-                  <Twitter size={24} />
-                </a>
-                <a href="#" className="text-stone-300 hover:text-green-400 transition-colors">
-                  <Linkedin size={24} />
                 </a>
                 <a href="#" className="text-stone-300 hover:text-green-400 transition-colors">
                   <Mail size={24} />
@@ -1160,7 +1137,7 @@ export default function HonestFarmingLanding() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail size={16} />
-                  <span>thehonestfarmer@proton.me</span>
+                  <a href="mailto:thehonestfarmer@proton.me" className="hover:text-green-400 transition-colors">thehonestfarmer@proton.me</a>
                 </div>
               </div>
             </div>
@@ -1168,17 +1145,6 @@ export default function HonestFarmingLanding() {
 
           <div className="border-t border-stone-600 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-stone-400 text-sm">© 2025 Honest Farming. All rights reserved.</p>
-            <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6 text-sm text-stone-400 mt-4 md:mt-0">
-              <a href="#" className="hover:text-green-400 transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-green-400 transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="hover:text-green-400 transition-colors">
-                Legal
-              </a>
-            </div>
           </div>
         </div>
       </footer>
