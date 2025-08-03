@@ -213,7 +213,7 @@ export default function InteractiveTimeline() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 transition-colors duration-300 leading-tight mb-4">
-            Why I Left Silicon Valley to Start a Farm
+            I Left Silicon Valley to Start a Farm
           </h3>
           <p className="text-lg sm:text-xl text-stone-600 dark:text-stone-400 transition-colors duration-300 max-w-2xl mx-auto">
             It&apos;s not much, but it&apos;s honest work.
@@ -514,14 +514,14 @@ export default function InteractiveTimeline() {
               {/* Mission Statement */}
               <div className="text-center">
                 <p className="text-xl sm:text-2xl text-stone-800 dark:text-stone-200 leading-relaxed font-semibold">
-                  I&apos;m building technology that serves human flourishing
+                  We&apos;re building technology that serves human flourishing
                 </p>
               </div>
 
               {/* Focus Areas Section */}
               <div className="text-left">
                 <h4 className="text-2xl font-bold text-stone-800 dark:text-stone-200 mb-8 text-center">
-                  My Focus Areas
+                  Focus Areas
                 </h4>
                 
                 <div className="grid gap-6">

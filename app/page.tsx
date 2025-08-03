@@ -11,18 +11,38 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import TruthExchangeNetwork, { heroNetworkConfig } from "@/components/TruthExchangeNetwork"
 import InteractiveTimeline from "@/components/InteractiveTimeline"
 
-// Base Card Component with Breathing Animation
+// useMediaQuery hook for responsive behavior
+const useMediaQuery = (query: string) => {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+    const listener = () => setMatches(media.matches);
+    media.addListener(listener);
+    return () => media.removeListener(listener);
+  }, [matches, query]);
+
+  return matches;
+};
+
+// Floating Text Card Component with Full-Screen Background
 interface CardProps {
   title: string
   description: string
   imageSrc: string
   imageAlt: string
+  textPosition: string
+  disableBreathing?: boolean
 }
 
-const BaseCard: React.FC<CardProps> = ({ title, description, imageSrc, imageAlt }) => {
-
+const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, imageAlt, textPosition, disableBreathing = false }) => {
   // Check for reduced motion preference
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  // Mobile detection
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -33,8 +53,8 @@ const BaseCard: React.FC<CardProps> = ({ title, description, imageSrc, imageAlt 
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
 
-  // Breathing animation - reduced intensity for mobile and accessibility
-  const breathingAnimation = prefersReducedMotion ? false : {
+  // Desktop breathing animation - full scale
+  const desktopBreathingAnimation = (prefersReducedMotion || disableBreathing) ? {} : {
     scale: [1, 1.03, 1],
     transition: {
       duration: 4,
@@ -43,33 +63,85 @@ const BaseCard: React.FC<CardProps> = ({ title, description, imageSrc, imageAlt 
     }
   }
 
+  // Mobile breathing animation - reduced scale for performance
+  const mobileBreathingAnimation = (prefersReducedMotion || disableBreathing) ? {} : {
+    scale: [1, 1.02, 1],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut" as const
+    }
+  }
+
+  // Text box entrance animation
+  const textBoxAnimation = prefersReducedMotion ? {} : {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+
+  // Mobile split layout (< 768px)
+  if (isMobile) {
+    return (
+      <div className="relative h-screen flex flex-col bg-stone-900">
+        {/* Image Section (Top 60%) */}
+        <div className="relative overflow-hidden bg-stone-800">
+          <motion.img
+            src={imageSrc}
+            alt={imageAlt}
+            className="w-full h-full object-contain"
+            style={{ imageRendering: 'pixelated' }}
+            animate={mobileBreathingAnimation}
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-stone-900/20" />
+        </div>
+        
+        {/* Text Section (Bottom 40%) */}
+        <div className="h-2/5 bg-stone-900 p-6 flex flex-col justify-center border-t-4 border-stone-600">
+          <motion.div {...textBoxAnimation}>
+            <h4 className="text-xl sm:text-2xl font-bold text-white mb-4 leading-tight">
+              {title}
+            </h4>
+            <p className="text-stone-300 text-base sm:text-lg leading-relaxed">
+              {description}
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    )
+  }
+
+  // Desktop floating text box layout (≥ 768px) - unchanged
   return (
-    <div className="max-w-4xl mx-auto px-4">
-      <div className="grid md:grid-cols-1 gap-8">
-        <div className="bg-white dark:bg-stone-700 rounded-xl p-6 sm:p-8 border-4 border-stone-800 dark:border-stone-600 shadow-lg transition-all duration-300 min-h-[500px] sm:min-h-[600px]">
-
-          {/* Breathing animated image */}
-          <div className="w-full h-60 sm:h-72 mb-6 sm:mb-8 overflow-hidden rounded-lg border-b-4 border-stone-800 dark:border-stone-600">
-            <motion.img
-              src={imageSrc}
-              alt={imageAlt}
-              className="w-full h-full object-contain"
-              style={{
-                imageRendering: 'pixelated',
-              }}
-              animate={breathingAnimation}
-              loading="lazy"
-            />
-          </div>
-
-          <h4 className="text-xl sm:text-2xl font-bold text-stone-800 dark:text-stone-200 mb-4 sm:mb-6">
-            {title}
-          </h4>
-
-          <p className="text-base sm:text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
-            {description}
-          </p>
-
+    <div className="relative h-screen w-full overflow-hidden flex justify-center">
+      {/* Container for 60% width card */}
+      <div className="relative w-[72%] h-[72%] overflow-hidden rounded-xl shadow-2xl floating-text-card-container">
+        {/* Background image with breathing animation */}
+        <motion.img
+          src={imageSrc}
+          alt={imageAlt}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ 
+            imageRendering: 'pixelated',
+            willChange: 'transform'
+          }}
+          animate={desktopBreathingAnimation}
+          loading="lazy"
+        />
+        
+        {/* Gradient overlay for better text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+        
+        {/* Floating text box */}
+        <div className={`absolute ${textPosition} z-10`}>
+          <motion.div 
+            className="floating-text-card rounded-lg p-6 shadow-xl mx-4"
+            {...textBoxAnimation}
+          >
+            <h4 className="text-2xl font-bold text-stone-900 mb-4 leading-snug">{title}</h4>
+            <p className="text-lg text-stone-700 leading-snug">{description}</p>
+          </motion.div>
         </div>
       </div>
     </div>
@@ -105,25 +177,42 @@ const GardenStickyScrollSection: React.FC = () => {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
+    // Disable throttling for smooth scroll transforms
+    throttle: 0
   })
 
-  // Disable sticky scroll effect on mobile or if user prefers reduced motion
-  const shouldUseStaticLayout = isMobile || prefersReducedMotion
+  // Disable sticky scroll effect only if user prefers reduced motion
+  const shouldUseStaticLayout = prefersReducedMotion
 
-  // Card 2 animation: slides up when 50% scrolled with more aggressive spacing
+  // Card 2 animation: slides up when 33% scrolled
   const card2Y = useTransform(
     scrollYProgress,
-    [0, 0.50, 0.75],
+    [0, 0.33, 1],
     shouldUseStaticLayout ? ["0%", "0%", "0%"] : ["150%", "0%", "0%"]
   )
 
-  // Card 3 animation: slides up when 75% scrolled with more aggressive spacing
+  // Card 3 animation: slides up when 66% scrolled, slides back down when scrolling up
   const card3Y = useTransform(
     scrollYProgress,
-    [0, 0.90, 1.60],
+    [0, 0.66, 1],
     shouldUseStaticLayout ? ["0%", "0%", "0%"] : ["200%", "0%", "0%"]
   )
+
+  // Determine which card should have breathing animation based on scroll progress
+  const [currentScrollProgress, setCurrentScrollProgress] = useState(0)
+  
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      setCurrentScrollProgress(latest)
+    })
+    return unsubscribe
+  }, [scrollYProgress])
+
+  // Only animate the topmost visible card
+  const shouldAnimateCard1 = currentScrollProgress < 0.33
+  const shouldAnimateCard2 = currentScrollProgress >= 0.33 && currentScrollProgress < 0.66
+  const shouldAnimateCard3 = currentScrollProgress >= 0.66
 
   // Mobile fallback: render cards in sequence without sticky effect
   if (shouldUseStaticLayout) {
@@ -141,25 +230,28 @@ const GardenStickyScrollSection: React.FC = () => {
 
         {/* Cards in vertical sequence */}
         <div className="space-y-8">
-          <BaseCard
+          <FloatingTextCard
             title="For the philosophically curious"
             description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality enable authentic human cooperation when we align with them rather than fight against them."
             imageSrc="/farm-landscapes/pixelated-divine-logos-0.png"
             imageAlt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
+            textPosition="bottom-8 left-4 right-4 flex justify-center"
           />
 
-          <BaseCard
+          <FloatingTextCard
             title="For the theologically minded"
             description="The Logos is the divine Word through which all things were made, the source of truth that enables authentic human cooperation to take root."
             imageSrc="/farm-landscapes/pixelated-divine-logos-1.png"
             imageAlt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
+            textPosition="bottom-6 left-6"
           />
 
-          <BaseCard
+          <FloatingTextCard
             title="For the practically focused"
             description="Whether you call it natural law, universal reason, or divine ordering - there are underlying principles that, when cultivated properly, enable human growth."
             imageSrc="/farm-landscapes/pixelated-divine-logos-2.png"
             imageAlt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
+            textPosition="bottom-4 left-4"
           />
         </div>
       </section>
@@ -181,50 +273,89 @@ const GardenStickyScrollSection: React.FC = () => {
       </div>
 
       {/* Scroll trigger container - defines scroll distance */}
-      <div className="relative h-[1000vh]">
+      <div className="relative h-[640vh] md:h-[640vh] sm:h-[500vh]">
 
         {/* Sticky cards container */}
-        <div className="sticky top-40 h-screen overflow-hidden">
+        <div className="sticky top-40 md:top-40 mobile-sticky-container h-screen overflow-hidden bg-stone-200 dark:bg-stone-800">
 
           {/* Cards container */}
-          <div className="flex items-center justify-center h-full -mt-28">
+          <div className="flex items-center justify-center h-full -mt-28 bg-stone-200 dark:bg-stone-800">
 
             {/* Card 1 - Base layer (Always visible) */}
-            <div className="absolute inset-0 z-10 flex justify-center">
-              <BaseCard
+            <div className="absolute inset-0 z-10">
+              <FloatingTextCard
                 title="For the philosophically curious"
-                description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality enable authentic human cooperation when we align with them rather than fight against them."
+                description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality can enable authentic human cooperation."
                 imageSrc="/farm-landscapes/pixelated-divine-logos-0.png"
                 imageAlt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
+                textPosition="top-2/3 left-8 right-8 transform -translate-y-1/8 text-justify"
+                disableBreathing={!shouldAnimateCard1}
               />
             </div>
 
             {/* Card 2 - Middle layer (Slides up at 33%) */}
             <motion.div
-              className="absolute inset-0 z-20 flex justify-center"
-              style={{ y: card2Y, willChange: 'transform' }}
+              className="absolute inset-0 z-20 scroll-transform-layer"
+              style={{ y: card2Y }}
             >
-              <BaseCard
+              <FloatingTextCard
                 title="For the theologically minded"
                 description="The Logos is the divine Word through which all things were made, the source of truth that enables authentic human cooperation to take root."
                 imageSrc="/farm-landscapes/pixelated-divine-logos-1.png"
                 imageAlt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
+                textPosition="bottom-8 left-8 w-1/2 flex justify-center"
+                disableBreathing={!shouldAnimateCard2}
               />
             </motion.div>
 
             {/* Card 3 - Top layer (Slides up at 66%) */}
             <motion.div
-              className="absolute inset-0 z-30 flex justify-center"
-              style={{ y: card3Y, willChange: 'transform' }}
+              className="absolute inset-0 z-30 scroll-transform-layer"
+              style={{ y: card3Y }}
             >
-              <BaseCard
+              <FloatingTextCard
                 title="For the practically focused"
                 description="Whether you call it natural law, universal reason, or divine ordering - there are underlying principles that, when cultivated properly, enable human growth."
                 imageSrc="/farm-landscapes/pixelated-divine-logos-2.png"
                 imageAlt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
+                textPosition="bottom-8 left-1/2 transform -translate-x-1/2"
+                disableBreathing={!shouldAnimateCard3}
               />
             </motion.div>
 
+          </div>
+        </div>
+      </div>
+      
+      {/* Section footer with farmer-programmer image to reduce dead space */}
+      <div className="relative bg-stone-100 dark:bg-stone-700 pb-20 pt-16">
+        <div className="container mx-auto px-4">
+          {/* Image and content container */}
+          <div className="max-w-4xl mx-auto">
+            {/* Farmer programmer image */}
+            <div className="mb-12 flex justify-center">
+              <div className="relative w-full max-w-2xl aspect-[4/3] overflow-hidden rounded-xl border-4 border-stone-800 dark:border-stone-600 shadow-2xl">
+                <img
+                  src="/farmer-programmer.png"
+                  alt="Pixelated scene of a programmer working at a desk with a view of pastoral farmland through a window"
+                  className="w-full h-full object-cover"
+                  style={{ imageRendering: 'pixelated' }}
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+              </div>
+            </div>
+            
+            {/* Text content */}
+            <div className="text-center">
+              <div className="w-16 h-1 bg-stone-400 dark:bg-stone-600 mx-auto mb-8"></div>
+              <p className="text-stone-600 dark:text-stone-400 text-lg font-medium mb-4">
+                Three perspectives, one foundation of truth
+              </p>
+              <p className="text-stone-500 dark:text-stone-500 text-sm italic max-w-md mx-auto">
+                Technology cultivated with wisdom, rooted in eternal principles
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -465,10 +596,11 @@ export default function HonestFarmingLanding() {
       {/* Garden Sticky Scroll Section */}
       <GardenStickyScrollSection />
 
-
+      {/* Interactive Timeline */}
+      <InteractiveTimeline />
 
       {/* Product Showcase */}
-      <section id="products" className="py-20 bg-stone-100 dark:bg-stone-700 transition-colors duration-300">
+      <section id="products" className="py-20 bg-stone-200 dark:bg-stone-800 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 mb-4 transition-colors duration-300">
@@ -614,9 +746,6 @@ export default function HonestFarmingLanding() {
           </div>
         </div>
       </section>
-
-      {/* Interactive Timeline */}
-      <InteractiveTimeline />
 
       {/* Newsletter Signup */}
       <section id="newsletter" className="py-20 bg-green-700 transition-colors duration-300">
@@ -1049,6 +1178,37 @@ export default function HonestFarmingLanding() {
           }
         }
 
+        /* Floating text card styles */
+        .floating-text-card {
+          /* Fallback for browsers without backdrop-filter support */
+          background: rgba(255, 255, 255, 0.95);
+        }
+        
+        @supports (backdrop-filter: blur(10px)) {
+          .floating-text-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+          }
+        }
+
+        /* Ensure smooth scroll transforms without throttling */
+        .scroll-transform-layer {
+          /* Force GPU acceleration */
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          perspective: 1000px;
+          /* Remove any transition delays that might interfere */
+          transition: none !important;
+          /* Optimize for smooth animations */
+          will-change: transform;
+          /* Match section background to prevent black flash */
+          background-color: #e7e5e4; /* stone-200 */
+        }
+
+        .dark .scroll-transform-layer {
+          background-color: #292524; /* stone-800 */
+        }
+
         /* Responsive text sizing */
         @media (max-width: 640px) {
           .animate-typewriter {
@@ -1068,6 +1228,11 @@ export default function HonestFarmingLanding() {
           
           .farm-landscape-image {
             height: 200px;
+          }
+
+          /* Mobile sticky scroll adjustments */
+          .mobile-sticky-container {
+            top: 80px !important; /* Adjust for mobile header */
           }
         }
 
