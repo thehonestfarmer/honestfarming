@@ -76,7 +76,7 @@ const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, i
   const textBoxAnimation = prefersReducedMotion ? {} : {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, ease: "easeOut" }
+    transition: { duration: 0.8, ease: "easeOut" as const }
   }
 
   // Mobile split layout (< 768px)
@@ -168,9 +168,7 @@ const GardenStickyScrollSection: React.FC = () => {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
-    // Disable throttling for smooth scroll transforms
-    throttle: 0
+    offset: ["start end", "end start"]
   })
 
   // Disable sticky scroll effect only if user prefers reduced motion
@@ -341,7 +339,7 @@ const ConcludingSection: React.FC = () => {
       y: 0,
       transition: { 
         duration: 0.8, 
-        ease: "easeOut" 
+        ease: "easeOut" as const
       }
     }
   }
@@ -378,7 +376,7 @@ const ConcludingSection: React.FC = () => {
             transition={{
               duration: 4,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut" as const
             }}
             loading="lazy"
           />
@@ -436,7 +434,7 @@ const ConcludingSection: React.FC = () => {
             transition={{
               duration: 5,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut" as const
             }}
             loading="lazy"
           />
@@ -509,7 +507,7 @@ const BuildingTodaySection: React.FC = () => {
       y: 0,
       transition: { 
         duration: 0.6, 
-        ease: "easeOut" 
+        ease: "easeOut" as const
       }
     }
   }
