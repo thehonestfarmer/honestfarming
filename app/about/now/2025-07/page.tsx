@@ -176,14 +176,14 @@ export default function July2025NowPage() {
             >
               <div className="bg-white dark:bg-stone-800 border-4 border-stone-800 dark:border-stone-600 shadow-lg p-8 transition-all duration-300">
                 <h2 className="text-2xl sm:text-3xl font-bold text-green-700 dark:text-green-400 mb-6 transition-colors duration-300">
-                  What We're Picking Up
+                  What We&apos;re Picking Up
                 </h2>
                 <div className="space-y-4">
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
                     <strong>Cross-modal learning experiments:</strong> Learning both tango (intuition, feeling, weight shifts) and salsa (technical precision, rhythm-driven) as complementary skills rather than competing approaches. The assumption that "more technical = better" misses half the picture - sustainable mastery requires both systematic execution and intuitive adaptation.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    <strong>AI coordination limitations:</strong> Prototyping multi-agent systems revealed that Claude Projects and similar tools hit walls when you need persistent, domain-specific intelligence. The general-purpose AI dream breaks down at implementation scale - you need specialized processing pipelines that don't eat through API budgets.
+                    <strong>AI coordination limitations:</strong> Prototyping multi-agent systems revealed that Claude Projects and similar tools hit walls when you need persistent, domain-specific intelligence. The general-purpose AI dream breaks down at implementation scale - you need specialized processing pipelines that don&apos;t eat through API budgets.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
                     <strong>Hierarchical Reasoning Machines:</strong> This challenges the fundamental "scale = intelligence" assumption driving current AI development. What if architectural efficiency matters more than parameter count? Real products need sustainable tokenomics, not just impressive demos.
@@ -200,17 +200,17 @@ export default function July2025NowPage() {
             >
               <div className="bg-white dark:bg-stone-800 border-4 border-stone-800 dark:border-stone-600 shadow-lg p-8 transition-all duration-300">
                 <h2 className="text-2xl sm:text-3xl font-bold text-blue-700 dark:text-blue-400 mb-6 transition-colors duration-300">
-                  What We're Working On
+                  What We&apos;re Working On
                 </h2>
                 <div className="space-y-4">
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
                     <strong>Content processing pipeline:</strong> Building systems that can ingest lectures, academic papers, and complex arguments into queryable knowledge bases. Think "search engine for systematic reasoning patterns" - but with anti-hallucination measures because accuracy matters when processing authoritative sources.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    <strong>Token economics reality check:</strong> Hit the cost wall building consumer AI applications with real user data at scale. Led me down compression algorithms, context optimization, and selective processing. The "just throw more tokens at it" approach doesn't work for sustainable products.
+                    <strong>Token economics reality check:</strong> Hit the cost wall building consumer AI applications with real user data at scale. Led me down compression algorithms, context optimization, and selective processing. The &quot;just throw more tokens at it&quot; approach doesn&apos;t work for sustainable products.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    <strong>Truth verification infrastructure:</strong> Got burned by AI-generated fake academic references in grad school submissions. Now building verification layers as a separate service. When you're processing complex arguments and authoritative content, hallucinations aren't just annoying - they're academically destructive.
+                    <strong>Truth verification infrastructure:</strong> Got burned by AI-generated fake academic references in grad school submissions. Now building verification layers as a separate service. When you&apos;re processing complex arguments and authoritative content, hallucinations aren&apos;t just annoying - they&apos;re academically destructive.
                   </p>
                 </div>
               </div>
@@ -224,14 +224,14 @@ export default function July2025NowPage() {
             >
               <div className="bg-white dark:bg-stone-800 border-4 border-stone-800 dark:border-stone-600 shadow-lg p-8 transition-all duration-300">
                 <h2 className="text-2xl sm:text-3xl font-bold text-purple-700 dark:text-purple-400 mb-6 transition-colors duration-300">
-                  What We're Letting Go
+                  What We&apos;re Letting Go
                 </h2>
                 <div className="space-y-4">
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    <strong>Blockchain-first solutions:</strong> Moved from "how do we use distributed ledgers?" to "what specific problems need decentralized verification?" Most applications don't need immutable records - they need reliable information processing. Better to solve specific verification problems than build abstract truth infrastructure.
+                    <strong>Blockchain-first solutions:</strong> Moved from &quot;how do we use distributed ledgers?&quot; to &quot;what specific problems need decentralized verification?&quot; Most applications don&apos;t need immutable records - they need reliable information processing. Better to solve specific verification problems than build abstract truth infrastructure.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    <strong>Overoptimization fallacy:</strong> Was training Muay Thai 8x/week while maintaining academic work and building projects. Reduced to 4x/week after recognizing that sustainable performance beats peak bursts. Energy management matters more than maximum effort when you're working on multiple complex problems.
+                    <strong>Overoptimization fallacy:</strong> Was training Muay Thai 8x/week while maintaining academic work and building projects. Reduced to 4x/week after recognizing that sustainable performance beats peak bursts. Energy management matters more than maximum effort when you&apos;re working on multiple complex problems.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
                     <strong>General-purpose AI coordination:</strong> The elegant multi-agent architecture worked beautifully in testing, terribly at scale. Pivoting from trying to make everything work together to building specialized systems that do one thing well. Constraints breed better solutions than unlimited resources.
@@ -248,11 +248,11 @@ export default function July2025NowPage() {
             >
               <div className="bg-white dark:bg-stone-800 border-4 border-stone-800 dark:border-stone-600 shadow-lg p-8 transition-all duration-300">
                 <h2 className="text-2xl sm:text-3xl font-bold text-amber-700 dark:text-amber-400 mb-6 transition-colors duration-300">
-                  What We're Seeing
+                  What We&apos;re Seeing
                 </h2>
                 <div className="space-y-4">
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
-                    We're at an inflection point where raw compute is abundant enough to solve interesting problems, but expensive enough that sustainable solutions require actual engineering discipline. The next wave of useful AI applications will come from efficiency innovations, not scale increases - from people who've hit the token wall and been forced to think systematically about what actually matters.
+                    We&apos;re at an inflection point where raw compute is abundant enough to solve interesting problems, but expensive enough that sustainable solutions require actual engineering discipline. The next wave of useful AI applications will come from efficiency innovations, not scale increases - from people who&apos;ve hit the token wall and been forced to think systematically about what actually matters.
                   </p>
                   <p className="text-lg text-stone-600 dark:text-stone-300 leading-relaxed transition-colors duration-300">
                     Most AI discussion happens in two bubbles: researchers with unlimited budgets, or consumers who never see backend costs. The sustainable products emerge from the narrow middle - people building real applications for real users with real constraints.
