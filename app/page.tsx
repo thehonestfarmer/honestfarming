@@ -107,9 +107,9 @@ const FloatingTextCard: React.FC<CardProps> = ({ title, description, imageSrc, i
             </p>
             <div className="pt-4 border-t border-stone-700 pt-12">
               <p className="text-green-400 text-base font-semibold leading-relaxed">
-                {title === "For the philosophically curious" && "Universal principles guide both natural growth and human cooperation"}
-                {title === "For the theologically minded" && "Divine Word as the foundation for truth and authentic community"}
-                {title === "For the practically focused" && "Underlying principles that enable sustainable human flourishing"}
+                {title === "For the philosophically curious" && "Discover the rational principles behind creation"}
+                {title === "For the theologically minded" && "Ground community in divine truth and order"}
+                {title === "For the practically focused" && "Apply universal principles for human flourishing"}
               </p>
             </div>
           </motion.div>
