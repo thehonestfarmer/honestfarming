@@ -57,10 +57,10 @@ export default function AboutPage() {
         setSubmitMessage(data.message)
         setEmail("")
       } else {
-        setSubmitMessage(data.error || &apos;Something went wrong. Please try again.&apos;)
+        setSubmitMessage(data.error || 'Something went wrong. Please try again.')
       }
     } catch {
-      setSubmitMessage(&apos;Network error. Please try again.&apos;)
+      setSubmitMessage('Network error. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -299,12 +299,12 @@ export default function AboutPage() {
                 disabled={isSubmitting}
                 className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold px-8 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? &apos;Subscribing...&apos; : &apos;Subscribe&apos;}
+                {isSubmitting ? 'Subscribing...' : 'Subscribe'}
               </Button>
             </form>
             
             {submitMessage && (
-              <p className={`text-sm mt-4 ${submitMessage.includes(&apos;Successfully&apos;) ? &apos;text-green-600 dark:text-green-400&apos; : &apos;text-red-600 dark:text-red-400&apos;}`}>
+              <p className={`text-sm mt-4 ${submitMessage.includes('Successfully') ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                 {submitMessage}
               </p>
             )}
