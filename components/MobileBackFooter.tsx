@@ -18,7 +18,6 @@ export default function MobileBackFooter({ className = '' }: MobileBackFooterPro
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      console.log('Is mobile:', mobile, 'Window width:', window.innerWidth);
     };
 
     // Initial check
@@ -31,19 +30,17 @@ export default function MobileBackFooter({ className = '' }: MobileBackFooterPro
       // Check sessionStorage
       try {
         const navigationSource = sessionStorage.getItem('honestfarming-navigation-source');
-        console.log('SessionStorage navigation source:', navigationSource);
         if (navigationSource === 'main-page') {
           fromMainPage = true;
         }
-      } catch (error) {
-        console.log('SessionStorage error:', error);
+      } catch {
+        // Silently handle sessionStorage errors
       }
 
       // Check referrer as fallback
       if (!fromMainPage) {
         const referrer = document.referrer;
         const currentOrigin = window.location.origin;
-        console.log('Referrer:', referrer, 'Current origin:', currentOrigin);
         
         fromMainPage = referrer === currentOrigin || 
                       referrer === `${currentOrigin}/` ||
@@ -52,8 +49,6 @@ export default function MobileBackFooter({ className = '' }: MobileBackFooterPro
                        !referrer.includes('/truthexchange') &&
                        !referrer.includes('/api'));
       }
-
-      console.log('From main page:', fromMainPage);
       
       // TEMPORARY: Always show on mobile for testing
       setShouldShow(isMobile);
@@ -88,15 +83,10 @@ export default function MobileBackFooter({ className = '' }: MobileBackFooterPro
     };
   }, [shouldShow]);
 
-  console.log('MobileBackFooter render - shouldShow:', shouldShow, 'isMobile:', isMobile);
-
   // Conditional rendering AFTER all hooks
   if (!shouldShow) {
-    console.log('Not showing footer');
     return null;
   }
-
-  console.log('Rendering footer');
 
   return (
     <div className={`fixed bottom-0 left-0 right-0 z-50 bg-stone-100 dark:bg-stone-800 border-t-2 border-stone-800 dark:border-stone-600 shadow-lg transition-all duration-300 ${className}`}>

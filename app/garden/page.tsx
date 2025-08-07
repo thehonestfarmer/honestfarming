@@ -16,7 +16,6 @@ export default function GardenLanding() {
   const handleWaitlistSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Handle waitlist signup
-    console.log("Waitlist signup:", email, "Plan:", selectedPlan)
     setEmail("")
     alert("Thank you for joining the Garden waitlist! We'll notify you when the first newsletter launches in Q3 2025.")
   }

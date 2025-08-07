@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,6 +19,7 @@ export const metadata: Metadata = {
   title: "Honest Farming - Technology for Human Growth",
   description: "Cultivating cooperation with the divine Logos. Truth-driven solutions for authentic communities and transparent systems.",
   manifest: "/manifest.json",
+  applicationName: "HonestFarming",
   icons: {
     icon: [
       { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
@@ -72,6 +75,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
