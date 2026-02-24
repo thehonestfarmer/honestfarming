@@ -614,105 +614,6 @@ export default function HonestFarmingLanding() {
                 </CardContent>
               </Card>
             </Link>
-
-            {/* Garden Card - Static (temporarily disabled) */}
-            <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-shadow product-card overflow-hidden">
-              <CardContent className="p-0 m-0">
-                <div className="h-48 bg-gradient-to-br from-amber-500/20 to-amber-700/20 border-b-4 border-stone-800 dark:border-stone-600 flex items-center justify-center">
-                  <div className="text-center">
-                    <img
-                      src="/garden-logo-1.png"
-                      alt="Garden logo - cross with growing leaves representing Christian apologetics"
-                      className="w-24 h-24 mx-auto mb-3 object-contain"
-                      style={{
-                        imageRendering: 'pixelated',
-                        transform: 'scale(1.15)',
-                      }}
-                    />
-                    <p className="text-stone-700 dark:text-stone-300 font-semibold">Newsletter & Wisdom</p>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-3">
-                    <h4 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 transition-colors duration-300">
-                      Garden
-                    </h4>
-                    <span className="text-xs sm:text-sm px-2 py-1 border font-semibold whitespace-nowrap bg-amber-200 text-amber-800 border-amber-600">
-                      Launching Q3 2025
-                    </span>
-                  </div>
-                  <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 transition-colors duration-300 leading-relaxed">
-                    Cultivating apologetic wisdom for faithful families. AI-curated truth without bias or manipulation.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Seurat Card - Static */}
-            <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-shadow product-card overflow-hidden">
-              <CardContent className="p-0 m-0">
-                <div className="h-48 bg-gradient-to-br from-gray-500/20 to-gray-700/20 border-b-4 border-stone-800 dark:border-stone-600 flex items-center justify-center">
-                  <div className="text-center">
-                    <img
-                      src="/seurat-logo-1.png"
-                      alt="Seurat logo - colorful pointillist human silhouette representing AI-enhanced human potential"
-                      className="w-24 h-24 mx-auto mb-3 object-contain"
-                      style={{
-                        imageRendering: 'pixelated',
-                      }}
-                    />
-                    <p className="text-stone-700 dark:text-stone-300 font-semibold">Human Potential</p>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-3">
-                    <h4 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 transition-colors duration-300">
-                      Seurat
-                    </h4>
-                    <span className="text-xs sm:text-sm px-2 py-1 border font-semibold whitespace-nowrap bg-gray-200 text-gray-800 border-gray-600">
-                      In Development
-                    </span>
-                  </div>
-                  <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 transition-colors duration-300 leading-relaxed">
-                    Tending to your personal garden - AI-powered tools to cultivate your full human potential
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* HappyHomeJapan Card - Clickable */}
-            <a href="https://www.happyhomejapan.com/" target="_blank" rel="noopener noreferrer" className="block">
-              <Card className="border-4 border-stone-800 dark:border-stone-600 shadow-lg bg-white dark:bg-stone-700 hover:shadow-xl transition-all duration-300 product-card overflow-hidden cursor-pointer hover:scale-105">
-                <CardContent className="p-0 m-0">
-                  <div className="h-48 bg-gradient-to-br from-green-500/20 to-green-700/20 border-b-4 border-stone-800 dark:border-stone-600 flex items-center justify-center">
-                    <div className="text-center">
-                      <img
-                        src="/happyhomejapan-logo-1.png"
-                        alt="HappyHomeJapan logo - house icon in rounded square container representing Japanese real estate"
-                        className="w-24 h-24 mx-auto mb-3 object-contain"
-                        style={{
-                          imageRendering: 'pixelated',
-                        }}
-                      />
-                      <p className="text-stone-700 dark:text-stone-300 font-semibold">Japanese Real Estate</p>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-3">
-                      <h4 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 transition-colors duration-300">
-                        HappyHomeJapan
-                      </h4>
-                      <span className="text-xs sm:text-sm px-2 py-1 border font-semibold whitespace-nowrap bg-orange-200 text-orange-800 border-orange-600">
-                        Paused
-                      </span>
-                    </div>
-                    <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 transition-colors duration-300 leading-relaxed">
-                      Navigate Japan&apos;s unique real estate market with confidence. Tools to help international buyers discover, understand, and purchase homes in Japan through transparent processes and local expertise.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </a>
           </div>
         </div>
       </section>
@@ -774,21 +675,8 @@ export default function HonestFarmingLanding() {
               <h5 className="text-lg font-bold">Products</h5>
               <ul className="space-y-2 text-stone-300">
                 <li>
-                  <a href="#" className="hover:text-green-400 transition-colors">
+                  <a href="/truthexchange" className="hover:text-green-400 transition-colors">
                     TruthExchange
-                  </a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-stone-500">Garden</span>
-                  <span className="text-xs px-1.5 py-0.5 bg-gray-200 text-gray-800 border border-gray-600 font-semibold whitespace-nowrap">Coming Soon</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-stone-500">Seurat</span>
-                  <span className="text-xs px-1.5 py-0.5 bg-gray-200 text-gray-800 border border-gray-600 font-semibold whitespace-nowrap">Coming Soon</span>
-                </li>
-                <li>
-                  <a href="https://www.happyhomejapan.com/" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition-colors">
-                    HappyHomeJapan
                   </a>
                 </li>
               </ul>

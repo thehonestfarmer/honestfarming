@@ -11,7 +11,6 @@ const WHITEPAPER_URL = "https://hackmd.io/@achungus/rkD2mAUvWl"
 
 export default function TruthExchangeLanding() {
   const [email, setEmail] = useState("")
-  const [interest, setInterest] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
 
@@ -26,7 +25,7 @@ export default function TruthExchangeLanding() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, interest }),
+        body: JSON.stringify({ email }),
       })
 
       const data = await response.json()
@@ -34,7 +33,6 @@ export default function TruthExchangeLanding() {
       if (response.ok) {
         setSubmitMessage(data.message)
         setEmail("")
-        setInterest("")
       } else {
         setSubmitMessage(data.error || "Something went wrong. Please try again.")
       }
@@ -398,28 +396,6 @@ export default function TruthExchangeLanding() {
                 disabled={isSubmitting}
                 className="w-full rounded-none border-2 border-black bg-white font-serif disabled:opacity-50"
               />
-              <select
-                value={interest}
-                onChange={(e) => setInterest(e.target.value)}
-                disabled={isSubmitting}
-                className="w-full rounded-none border-2 border-black bg-white px-4 py-3 font-serif disabled:opacity-50"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%230a0a0a' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 12px center",
-                  backgroundSize: "12px",
-                }}
-              >
-                <option value="" disabled>
-                  What topics interest you?
-                </option>
-                <option value="politics">Political Claims & Media</option>
-                <option value="science">Scientific & Health Claims</option>
-                <option value="technology">Technology & AI</option>
-                <option value="history">Historical Events</option>
-                <option value="economics">Economic & Policy</option>
-                <option value="other">Other / General</option>
-              </select>
               <Button
                 type="submit"
                 disabled={isSubmitting}
@@ -485,7 +461,14 @@ export default function TruthExchangeLanding() {
               >
                 @chungusfarmer
               </a>
-              <span>$TX on Solana (Pump.fun)</span>
+              <a
+                href="https://pump.fun/coin/5QPAiMFfpFTXyHsbFGVXyALr83GayaskCenouE9vpump"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white underline underline-offset-2 hover:no-underline"
+              >
+                $TX on Solana (Pump.fun)
+              </a>
             </div>
             <div className="border-t border-white/20 pt-6">
               <p className="font-serif text-xs text-white/60">
