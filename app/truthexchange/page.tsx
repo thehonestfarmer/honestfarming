@@ -478,12 +478,12 @@ export default function TruthExchangeLanding() {
                 Whitepaper
               </a>
               <a
-                href="https://x.com/anhonestfarmer"
+                href="https://x.com/chungusfarmer"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white underline underline-offset-2 hover:no-underline"
               >
-                @anhonestfarmer
+                @chungusfarmer
               </a>
               <span>$TX on Solana (Pump.fun)</span>
             </div>
