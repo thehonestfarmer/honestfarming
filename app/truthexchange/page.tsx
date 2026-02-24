@@ -3,10 +3,11 @@
 import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Search, Users, CheckCircle, AlertTriangle, Eye, Network, FileText, Shield } from "lucide-react"
+import TruthExchangeNetwork, { heroNetworkConfig } from "@/components/TruthExchangeNetwork"
 import MobileBackFooter from "@/components/MobileBackFooter"
+
+const WHITEPAPER_URL = "https://hackmd.io/@achungus/rkD2mAUvWl"
 
 export default function TruthExchangeLanding() {
   const [email, setEmail] = useState("")
@@ -20,10 +21,10 @@ export default function TruthExchangeLanding() {
     setSubmitMessage("")
 
     try {
-      const response = await fetch('/api/truthexchange-subscribe', {
-        method: 'POST',
+      const response = await fetch("/api/truthexchange-subscribe", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, interest }),
       })
@@ -35,192 +36,148 @@ export default function TruthExchangeLanding() {
         setEmail("")
         setInterest("")
       } else {
-        setSubmitMessage(data.error || 'Something went wrong. Please try again.')
+        setSubmitMessage(data.error || "Something went wrong. Please try again.")
       }
     } catch {
-      setSubmitMessage('Network error. Please try again.')
+      setSubmitMessage("Network error. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
   }
 
+  const scrollToWaitlist = () =>
+    document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" })
+
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-[#faf6f0] font-serif text-[#0a0a0a]">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm transition-colors duration-300">
+      <header className="sticky top-0 z-50 bg-[#faf6f0] border-b-2 border-black">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-3">
               <img
                 src="/truthexchange-logo-1.png"
-                alt="TruthExchange logo - geometric diamond crystal representing truth verification"  
-                className="w-8 h-8 object-contain"
-                style={{
-                  imageRendering: 'pixelated',
-                }}
+                alt="TruthExchange logo"
+                className="h-8 w-8 object-contain"
+                style={{ imageRendering: "pixelated" }}
               />
-              <h1 className="text-2xl font-semibold text-slate-800 dark:text-slate-200 tracking-tight transition-colors duration-300">
-                TruthExchange
+              <h1 className="text-xl font-serif font-bold tracking-tight md:text-2xl">
+                TruthExchange $TX
               </h1>
             </div>
-            <Button 
-              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-sm font-medium px-6 transition-all duration-300"
-            >
-              Join
-            </Button>
+            <div className="flex items-center gap-2">
+              <a
+                href={WHITEPAPER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-2 border-black bg-white px-4 py-2 font-serif text-sm font-medium shadow-[4px_4px_0_0_#0a0a0a] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#0a0a0a]"
+              >
+                Read Whitepaper →
+              </a>
+              <Button
+                onClick={scrollToWaitlist}
+                className="rounded-none border-2 border-black bg-[#1a5799] font-serif font-medium text-white shadow-[4px_4px_0_0_#0a0a0a] hover:bg-[#1a5799]/90 hover:shadow-[6px_6px_0_0_#0a0a0a]"
+              >
+                Join
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div className="flex justify-center mb-8">
-              <img
-                src="/truthexchange-logo-1.png"
-                alt="TruthExchange logo - geometric diamond crystal representing truth verification"
-                className="w-20 h-20 object-contain"
-                style={{
-                  imageRendering: 'pixelated',
-                }}
-              />
-            </div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-slate-100 leading-tight transition-colors duration-300">
-              Truth Through
-              <br />
-              <span className="text-blue-600 dark:text-blue-400">Community Intelligence</span>
-            </h2>
-            <p className="text-xl sm:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed transition-colors duration-300 max-w-3xl mx-auto">
-              What Wikipedia promised, TruthExchange delivers—collaborative truth-seeking with systematic evidence evaluation
-            </p>
-            <Button
-              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg font-semibold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
-            >
-              Join
-            </Button>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Join researchers, citizens, and truth-seekers building transparent methodology
-            </p>
-          </div>
+      {/* Hero */}
+      <section className="relative min-h-[64vh] overflow-hidden border-b-2 border-black bg-[#faf6f0] py-20">
+        <div className="absolute inset-0 z-[1] opacity-50">
+          <TruthExchangeNetwork
+            isDarkMode={false}
+            className="w-full h-full"
+            backgroundColor="#faf6f0"
+            backgroundColorDark="#0a0a0a"
+            particleColors={["#1a5799", "#2563eb", "#1e40af", "#1e3a8a"]}
+            connectionColor="#1a5799"
+            connectionColorDark="#60a5fa"
+            {...heroNetworkConfig}
+          />
         </div>
-      </section>
-
-      {/* The Problem Section */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-800 transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h3 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-12 text-center transition-colors duration-300">
-              The Truth Crisis
-            </h3>
-            <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              <Card className="border-2 border-slate-200 dark:border-slate-600 shadow-md bg-white dark:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:scale-105">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <FileText className="w-8 h-8 text-orange-600 dark:text-orange-400" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
-                    Wikipedia&apos;s Gatekeeping
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                    Editorial gatekeeping controls &quot;truth&quot;—especially on modern controversies where bias matters most.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 border-slate-200 dark:border-slate-600 shadow-md bg-white dark:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:scale-105">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <AlertTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
-                    Biased Fact-Checkers
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                    Centralized bias disguised as objectivity—trust us, we&apos;re the experts.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 border-slate-200 dark:border-slate-600 shadow-md bg-white dark:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:scale-105">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Eye className="w-8 h-8 text-yellow-600 dark:text-yellow-400" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
-                    Social Media Echo Chambers
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                    Echo chambers without evidence standards—confirmation bias at scale.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Our Solution Section */}
-      <section className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h3 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100 transition-colors duration-300">
-              Our Solution
-            </h3>
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-8">
-              <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-300 leading-relaxed">
-                TruthExchange applies social networking to evidence evaluation. Submit claims, verify sources together, 
-                follow researchers you trust, and expose manipulation attempts through transparent community methodology.
+        <div className="container relative z-10 mx-auto px-4">
+          <div className="w-full rounded-2xl border-2 border-black/10 bg-[#faf6f0]/65 px-6 py-10 shadow-[4px_4px_0_0_rgba(10,10,10,0.08)] sm:px-10 sm:py-12">
+            <div className="mx-auto w-[80%] max-w-full text-center">
+              <div className="mb-8 flex justify-center">
+                <img
+                  src="/truthexchange-logo-1.png"
+                  alt="TruthExchange logo"
+                  className="h-20 w-20 object-contain"
+                  style={{ imageRendering: "pixelated" }}
+                />
+              </div>
+              <h2 className="font-serif text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                Infrastructure for Reasoning
+              </h2>
+              <p className="mx-auto mt-6 text-lg leading-relaxed sm:text-xl">
+                $TX is the native token of the TruthExchange protocol — a political
+                reasoning marketplace where beliefs are living structures that update
+                based on new information. A decentralized, reimagined Wikipedia for
+                political reasoning.
               </p>
+              <p className="mt-4 font-serif text-base italic text-[#0a0a0a]/80">
+                Quis custodiet ipsos custodes?
+              </p>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <Button
+                  onClick={scrollToWaitlist}
+                  size="lg"
+                  className="rounded-none border-2 border-black bg-[#1a5799] px-8 py-4 font-serif text-lg font-semibold text-white shadow-[4px_4px_0_0_#0a0a0a] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#0a0a0a]"
+                >
+                  Join Waitlist
+                </Button>
+                <a
+                  href={WHITEPAPER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block border-2 border-black bg-white px-6 py-3 font-serif text-lg font-semibold shadow-[4px_4px_0_0_#0a0a0a] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#0a0a0a]"
+                >
+                  Read Whitepaper →
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-800 transition-colors duration-300">
+      {/* The Problem */}
+      <section className="border-b-2 border-black bg-[#0a0a0a] py-20 text-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h3 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-12 text-center transition-colors duration-300">
-              How It Works
+          <div className="mx-auto max-w-6xl">
+            <h3 className="mb-12 text-center font-serif text-3xl font-black tracking-tight sm:text-4xl">
+              THE PROBLEM
             </h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto">
-                  <Search className="w-10 h-10 text-white" />
-                </div>
-                <h4 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                  Submit Claims
-                </h4>
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                  Post controversial claims and start gathering evidence. Claims and evidence are first-class objects, not buried in narrative articles.
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="border-2 border-white bg-[#0a0a0a] p-6 shadow-[4px_4px_0_0_#fff]">
+                <p className="mb-2 font-serif text-sm font-bold uppercase tracking-wide text-[#f5d000]">
+                  Epistemological Fragmentation
+                </p>
+                <p className="font-serif leading-relaxed">
+                  The deepest problem isn&apos;t necessarily polarization. It&apos;s
+                  the deliberate fracturing of shared frameworks for evaluating
+                  truth. When a distributed public can&apos;t agree on how to
+                  evaluate evidence — let alone what the evidence says — they
+                  cannot coordinate effectively.
+                </p>
+                <p className="mt-4 font-serif text-sm italic">
+                  We are being made dumber. On purpose. Because dumber is more
+                  profitable.
                 </p>
               </div>
-
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mx-auto">
-                  <Users className="w-10 h-10 text-white" />
-                </div>
-                <h4 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                  Evaluate Evidence
-                </h4>
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                  Community verifies sources, identifies logical fallacies, and tracks manipulation through systematic methodology.
+              <div className="border-2 border-white bg-[#0a0a0a] p-6 shadow-[4px_4px_0_0_#fff]">
+                <p className="mb-2 font-serif text-sm font-bold uppercase tracking-wide text-[#f5d000]">
+                  Word Theater
                 </p>
-              </div>
-
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircle className="w-10 h-10 text-white" />
-                </div>
-                <h4 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                  Track Truth
-                </h4>
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                  Transparent consensus emerges through systematic methodology that can&apos;t be controlled by ideological gatekeepers.
+                <p className="font-serif leading-relaxed">
+                  The information ecosystem runs on performative speech
+                  disconnected from consequences. Expert predictions carry no stake
+                  in accuracy. Politicians make promises without binding
+                  mechanisms. The entire discourse operates like writing checks on
+                  an account with no balance — all commitment, no consequence.
                 </p>
               </div>
             </div>
@@ -228,181 +185,265 @@ export default function TruthExchangeLanding() {
         </div>
       </section>
 
-      {/* Our Approach Section */}
-      <section className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
+      {/* The Insight */}
+      <section className="border-b-2 border-black bg-[#faf6f0] py-20">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-12 text-center transition-colors duration-300">
-              Our Approach
+          <div className="mx-auto max-w-3xl">
+            <h3 className="mb-4 text-center font-serif text-3xl font-black tracking-tight sm:text-4xl">
+              THE INSIGHT
             </h3>
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4 p-6 bg-slate-50 dark:bg-slate-800 rounded-lg">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <FileText className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                    Claims and Evidence as First-Class Objects
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300">
-                    Not buried in narrative articles—evidence and claims stand on their own for transparent evaluation.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 p-6 bg-slate-50 dark:bg-slate-800 rounded-lg">
-                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <Network className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                    Social Networks Determine Credibility
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300">
-                    Follow trusted researchers and build credibility weighting through transparent community relationships.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 p-6 bg-slate-50 dark:bg-slate-800 rounded-lg">
-                <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <AlertTriangle className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                    Systematic Fallacy Identification
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300">
-                    Logical fallacies identified systematically, not left to editorial judgment or political bias.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 p-6 bg-slate-50 dark:bg-slate-800 rounded-lg">
-                <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <Shield className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                    Expose Source Manipulation
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300">
-                    Community verification exposes manipulation attempts through transparent methodology.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Perfect For Section */}
-      <section className="py-20 bg-slate-100 dark:bg-slate-800 transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-12 transition-colors duration-300">
-              Perfect For
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="border-2 border-slate-200 dark:border-slate-600 shadow-md bg-white dark:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:scale-105">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Users className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
-                    Researchers & Truth-Seekers
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    Researchers who need reliable source verification and citizens seeking truth over confirmation bias.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 border-slate-200 dark:border-slate-600 shadow-md bg-white dark:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:scale-105">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Eye className="w-8 h-8 text-green-600 dark:text-green-400" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
-                    Wikipedia Refugees
-                  </h4>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    Anyone frustrated with Wikipedia&apos;s political spin and ready for transparent methodology.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Waitlist Section */}
-      <section id="waitlist" className="py-20 bg-blue-600 transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center space-y-8">
-            <h3 className="text-3xl sm:text-4xl font-bold text-white">
-              Join the Truth Network
-            </h3>
-            <p className="text-lg sm:text-xl text-blue-100 leading-relaxed">
-              Be among the first to experience collaborative truth-seeking when we launch the beta.
+            <p className="text-center font-serif text-lg leading-relaxed">
+              Every person carries an implicit belief tree — a structure of
+              axioms, evidence, warrants, and conclusions that produces their
+              positions on policy questions. But this tree is invisible. It lives
+              in intuition, tribal affiliation, and inherited assumptions.
             </p>
-            
-            <form onSubmit={handleWaitlistSubmit} className="space-y-4 max-w-md mx-auto">
+            <p className="mt-6 text-center font-serif text-2xl font-bold text-[#1a5799]">
+              TruthExchange makes the invisible visible.
+            </p>
+            <p className="mt-4 text-center font-serif leading-relaxed">
+              When you can see your own belief tree, you discover internal
+              contradictions, identify what would change your mind, and find
+              unexpected common ground with people whose reasoning diverges at a
+              specific, identifiable point — rather than across an unbridgeable
+              ideological chasm.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* What $TX Is — 3 primitives */}
+      <section className="border-b-2 border-black bg-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-5xl">
+            <h3 className="mb-12 text-center font-serif text-3xl font-black tracking-tight sm:text-4xl">
+              WHAT $TX IS
+            </h3>
+            <div className="space-y-8">
+              <div className="border-2 border-black bg-[#faf6f0] p-6 shadow-[4px_4px_0_0_#0a0a0a]">
+                <div className="mb-2 h-1 w-16 bg-[#1a5799]" />
+                <p className="font-serif text-sm font-bold uppercase tracking-wide text-[#1a5799]">
+                  Evidence Node (Atom)
+                </p>
+                <p className="mt-2 font-serif leading-relaxed">
+                  The irreducible unit. A piece of evidence exists independently
+                  of any argument — a study, a dataset, a court ruling. Evidence
+                  nodes are globally shared; the same piece can support claims in
+                  thousands of belief trees. Each carries verification status and
+                  confidence scores.
+                </p>
+              </div>
+              <div className="border-2 border-black bg-[#faf6f0] p-6 shadow-[4px_4px_0_0_#0a0a0a]">
+                <div className="mb-2 h-1 w-16 bg-[#1a5799]" />
+                <p className="font-serif text-sm font-bold uppercase tracking-wide text-[#1a5799]">
+                  CEWI Node (Molecule)
+                </p>
+                <p className="mt-2 font-serif leading-relaxed">
+                  A structured argument: Claim, Evidence, Warrant, Impact — plus
+                  Falsification (the inverse argument that would break this
+                  chain). Every claim contains its structural opposite. The CEWI
+                  framework gives every argument a consistent, traceable
+                  structure adapted from competitive debate methodology.
+                </p>
+              </div>
+              <div className="border-2 border-black bg-[#faf6f0] p-6 shadow-[4px_4px_0_0_#0a0a0a]">
+                <div className="mb-2 h-1 w-16 bg-[#1a5799]" />
+                <p className="font-serif text-sm font-bold uppercase tracking-wide text-[#1a5799]">
+                  Belief Tree (Compound)
+                </p>
+                <p className="mt-2 font-serif leading-relaxed">
+                  Multiple CEWI molecules connected by logical dependencies into a
+                  coherent worldview. Organized like a filesystem — topic domains
+                  as folders, CEWI chains as contents. Yours to share, compare,
+                  and update as new evidence enters the world.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Token Utility */}
+      <section className="border-b-2 border-black bg-[#faf6f0] py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-5xl">
+            <h3 className="mb-12 text-center font-serif text-3xl font-black tracking-tight sm:text-4xl">
+              TOKEN UTILITY
+            </h3>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  label: "FREE",
+                  title: "Build your tree",
+                  body: "Full conversational AI, shareable output. Always free.",
+                },
+                {
+                  label: "SOCIAL",
+                  title: "$TX required",
+                  body: "Compare trees, reveal nodes, see how your reasoning clusters with others.",
+                },
+                {
+                  label: "STAKING",
+                  title: "Skin in the game",
+                  body: "Stake $TX on CEWI nodes. Challenge or defend. Polymarket tells you what; $TX tells you why.",
+                },
+                {
+                  label: "VERIFICATION",
+                  title: "$TX required",
+                  body: "Submit evidence nodes, verify sources, contribute to the global evidence layer.",
+                },
+              ].map((tier) => (
+                <div
+                  key={tier.label}
+                  className="border-2 border-black bg-white p-5 shadow-[4px_4px_0_0_#0a0a0a]"
+                >
+                  <span className="inline-block border border-black bg-[#f5d000] px-2 py-0.5 font-serif text-xs font-bold uppercase">
+                    {tier.label}
+                  </span>
+                  <p className="mt-3 font-serif font-bold">{tier.title}</p>
+                  <p className="mt-1 font-serif text-sm leading-relaxed">
+                    {tier.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Now */}
+      <section className="border-b-2 border-black bg-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-5xl">
+            <h3 className="mb-12 text-center font-serif text-3xl font-black tracking-tight sm:text-4xl">
+              WHY NOW
+            </h3>
+            <div className="grid gap-8 md:grid-cols-3">
+              <div className="border-2 border-black bg-[#faf6f0] p-6 shadow-[4px_4px_0_0_#0a0a0a]">
+                <p className="font-serif text-sm font-bold uppercase tracking-wide text-[#1a5799]">
+                  AI capabilities
+                </p>
+                <p className="mt-3 font-serif leading-relaxed">
+                  LLMs can extract structured arguments, conduct Socratic
+                  dialogue, and surface evidence to help users articulate
+                  positions. Combined with verification layers, they scaffold
+                  human reasoning at scale.
+                </p>
+              </div>
+              <div className="border-2 border-black bg-[#faf6f0] p-6 shadow-[4px_4px_0_0_#0a0a0a]">
+                <p className="font-serif text-sm font-bold uppercase tracking-wide text-[#1a5799]">
+                  Blockchain infrastructure
+                </p>
+                <p className="mt-3 font-serif leading-relaxed">
+                  Immutable records create commitment devices. Smart contracts
+                  enable automated accountability. Token mechanics align economic
+                  incentives with epistemic quality. Fast chains enable
+                  real-time interaction at negligible cost.
+                </p>
+              </div>
+              <div className="border-2 border-black bg-[#faf6f0] p-6 shadow-[4px_4px_0_0_#0a0a0a]">
+                <p className="font-serif text-sm font-bold uppercase tracking-wide text-[#1a5799]">
+                  Cultural demand
+                </p>
+                <p className="mt-3 font-serif leading-relaxed">
+                  Trust in institutions is at historic lows. Identity-driven
+                  politics is a recent phenomenon, not human nature. The demand
+                  for substance over spectacle is real — and necessary for a
+                  democratic social order.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Whitepaper callout */}
+      <section className="border-b-2 border-black bg-[#1a5799] py-10">
+        <div className="container mx-auto px-4 text-center">
+          <a
+            href={WHITEPAPER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block font-serif text-lg font-bold text-white underline decoration-2 underline-offset-4 hover:no-underline"
+          >
+            Read the full whitepaper →
+          </a>
+        </div>
+      </section>
+
+      {/* Waitlist */}
+      <section
+        id="waitlist"
+        className="border-b-2 border-black bg-[#faf6f0] py-20"
+      >
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-xl space-y-8 text-center">
+            <h3 className="font-serif text-3xl font-black tracking-tight sm:text-4xl">
+              JOIN THE WAITLIST
+            </h3>
+            <p className="font-serif leading-relaxed">
+              Be among the first when we launch the belief tree builder and $TX.
+            </p>
+
+            <form
+              onSubmit={handleWaitlistSubmit}
+              className="mx-auto max-w-md space-y-4 text-left"
+            >
               <Input
                 type="email"
-                placeholder="Enter your email address"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isSubmitting}
-                className="w-full border-0 bg-white text-slate-900 font-medium py-3 px-4 rounded-lg shadow-sm disabled:opacity-50"
+                className="w-full rounded-none border-2 border-black bg-white font-serif disabled:opacity-50"
               />
-              
               <select
                 value={interest}
                 onChange={(e) => setInterest(e.target.value)}
                 disabled={isSubmitting}
-                className="w-full border-0 bg-white text-slate-900 font-medium py-3 px-4 rounded-lg shadow-sm appearance-none cursor-pointer disabled:opacity-50"
-                style={{ backgroundImage: "url(\"data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", backgroundSize: "12px" }}
+                className="w-full rounded-none border-2 border-black bg-white px-4 py-3 font-serif disabled:opacity-50"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%230a0a0a' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 12px center",
+                  backgroundSize: "12px",
+                }}
               >
-                <option value="" disabled>What topics are you most interested in verifying?</option>
-                <option value="politics">Political Claims & Media Analysis</option>
-                <option value="science">Scientific Studies & Health Claims</option>
-                <option value="technology">Technology & AI Development</option>
-                <option value="history">Historical Events & Narratives</option>
-                <option value="economics">Economic Data & Policy Claims</option>
-                <option value="other">Other / General Truth-Seeking</option>
+                <option value="" disabled>
+                  What topics interest you?
+                </option>
+                <option value="politics">Political Claims & Media</option>
+                <option value="science">Scientific & Health Claims</option>
+                <option value="technology">Technology & AI</option>
+                <option value="history">Historical Events</option>
+                <option value="economics">Economic & Policy</option>
+                <option value="other">Other / General</option>
               </select>
-
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-white hover:bg-slate-50 text-blue-600 border-0 shadow-lg font-semibold py-3 px-8 text-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-none border-2 border-black bg-[#1a5799] font-serif font-semibold text-white shadow-[4px_4px_0_0_#0a0a0a] disabled:opacity-50"
               >
-                {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
+                {isSubmitting ? "Joining…" : "Join the Waitlist"}
               </Button>
             </form>
-            
+
             {submitMessage && (
-              <div className={`text-sm mt-4 p-3 rounded-lg ${submitMessage.includes('Successfully') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+              <div
+                className={`rounded-none border-2 border-black p-3 text-sm font-serif ${
+                  submitMessage.includes("Successfully")
+                    ? "border-green-700 bg-green-100 text-green-900"
+                    : "border-red-700 bg-red-100 text-red-900"
+                }`}
+              >
                 {submitMessage}
               </div>
             )}
-            
-            <div className="flex items-center justify-center space-x-6 text-blue-200">
-              <div className="flex items-center space-x-2">
-                <Users className="w-5 h-5" />
-                <span>5,000+ researchers waiting</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Shield className="w-5 h-5" />
-                <span>Privacy-first platform</span>
-              </div>
-            </div>
-            
+
             {!submitMessage && (
-              <p className="text-sm text-blue-200">
-                You&apos;ll be notified when we launch the beta. No spam, just truth.
+              <p className="text-sm font-serif text-[#0a0a0a]/70">
+                We&apos;ll notify you at launch. No spam.
               </p>
             )}
           </div>
@@ -410,33 +451,51 @@ export default function TruthExchangeLanding() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 dark:bg-slate-950 text-white py-12 transition-colors duration-300">
+      <footer className="bg-[#0a0a0a] py-12 text-white">
         <div className="container mx-auto px-4">
-          <div className="text-center space-y-4">
-            <div className="flex items-center justify-center space-x-3">
+          <div className="space-y-4 text-center">
+            <div className="flex items-center justify-center gap-3">
               <img
                 src="/truthexchange-logo-1.png"
                 alt="TruthExchange logo"
-                className="w-8 h-8 object-contain"
-                style={{
-                  imageRendering: 'pixelated',
-                }}
+                className="h-8 w-8 object-contain"
+                style={{ imageRendering: "pixelated" }}
               />
-              <h4 className="text-xl font-semibold">TruthExchange</h4>
+              <h4 className="font-serif text-xl font-bold">TruthExchange</h4>
             </div>
-            <p className="text-slate-300 max-w-md mx-auto">
-              Truth through community intelligence. What Wikipedia promised, TruthExchange delivers.
+            <p className="mx-auto max-w-md font-serif text-sm text-white/80">
+              Infrastructure for a world where political claims have
+              consequences, reasoning is visible, and changing your mind based on
+              evidence is rewarded.
             </p>
-            <div className="border-t border-slate-700 pt-6">
-              <p className="text-slate-400 text-sm">
-                © 2024 TruthExchange by Honest Farming. All rights reserved.
+            <div className="flex flex-wrap items-center justify-center gap-4 font-serif text-sm">
+              <a
+                href={WHITEPAPER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white underline underline-offset-2 hover:no-underline"
+              >
+                Whitepaper
+              </a>
+              <a
+                href="https://x.com/anhonestfarmer"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white underline underline-offset-2 hover:no-underline"
+              >
+                @anhonestfarmer
+              </a>
+              <span>$TX on Solana (Pump.fun)</span>
+            </div>
+            <div className="border-t border-white/20 pt-6">
+              <p className="font-serif text-xs text-white/60">
+                © 2026 TruthExchange by Honest Farming. All rights reserved.
               </p>
             </div>
           </div>
         </div>
       </footer>
-      
-      {/* Mobile Back Footer */}
+
       <MobileBackFooter />
     </div>
   )

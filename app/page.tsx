@@ -8,7 +8,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Menu, X, Mail, Github, MapPin, Sun, Moon } from "lucide-react"
 import { motion, useInView } from "framer-motion"
-import TruthExchangeNetwork, { heroNetworkConfig } from "@/components/TruthExchangeNetwork"
 
 // useMediaQuery hook for responsive behavior
 const useMediaQuery = (query: string) => {
@@ -170,7 +169,7 @@ const GardenStickyScrollSection: React.FC = () => {
 
   // For the simplified approach, all cards can breathe since they're separate sections
   const shouldAnimateCard1 = true
-  const shouldAnimateCard2 = true  
+  const shouldAnimateCard2 = true
   const shouldAnimateCard3 = true
 
   // Mobile fallback: render cards in sequence without sticky effect
@@ -183,33 +182,33 @@ const GardenStickyScrollSection: React.FC = () => {
         {/* Title */}
         <div className="container mx-auto px-4 mb-8">
           <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 text-center transition-colors duration-300">
-            What We Mean by Divine Logos
+            How I got here
           </h3>
         </div>
 
         {/* Cards in vertical sequence */}
         <div className="space-y-8">
           <FloatingTextCard
-            title="For the philosophically curious"
-            description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality enable authentic human cooperation when we align with them rather than fight against them."
+            title="Big Tech gave me the tools"
+            description="I spent years at Coinbase and Uber building systems that serve millions. I learned how to ship, how to scale, and how to build things that work. But I also saw how technology can optimize for engagement without ever asking whether it's making people better."
             imageSrc="/farm-landscapes/pixelated-divine-logos-0.png"
-            imageAlt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
+            imageAlt="Rolling farmland with clouds"
             textPosition="bottom-8 left-4 right-4 flex justify-center"
           />
 
           <FloatingTextCard
-            title="For the theologically minded"
-            description="The Logos is the divine Word through which all things were made, the source of truth that enables authentic human cooperation to take root."
+            title="Japan gave me the roots"
+            description="I walked away to study theology, farm in rural Japan, and ask harder questions. What would technology look like if it served human flourishing — not just growth metrics? The answer started taking shape."
             imageSrc="/farm-landscapes/pixelated-divine-logos-1.png"
-            imageAlt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
+            imageAlt="Seedling breaking through soil"
             textPosition="bottom-6 left-6"
           />
 
           <FloatingTextCard
-            title="For the practically focused"
-            description="Whether you call it natural law, universal reason, or divine ordering - there are underlying principles that, when cultivated properly, enable human growth."
+            title="Now I'm growing something different"
+            description="Software that helps you own your habits, reason through hard problems, and control your own data. Tools built on the conviction that technology should make people freer and more capable — not more dependent."
             imageSrc="/farm-landscapes/pixelated-divine-logos-2.png"
-            imageAlt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
+            imageAlt="Lush, abundant landscape"
             textPosition="bottom-4 left-4"
           />
         </div>
@@ -223,7 +222,7 @@ const GardenStickyScrollSection: React.FC = () => {
       {/* Title */}
       <div className="container mx-auto px-4 pt-20 pb-8">
         <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200 text-center transition-colors duration-300">
-          What We Mean by Divine Logos
+          How I got here
         </h3>
       </div>
 
@@ -231,10 +230,10 @@ const GardenStickyScrollSection: React.FC = () => {
       <section className="sticky top-20 h-screen bg-stone-200 dark:bg-stone-800 z-10 mt-12">
         <div className="h-full flex items-center justify-center px-0 md:px-8 py-24">
           <FloatingTextCard
-            title="For the philosophically curious"
-            description="Natural laws govern how seeds become flourishing plants. The same rational principles that order reality can enable authentic human cooperation."
+            title="Big Tech gave me the tools"
+            description="I spent years at Coinbase and Uber building systems that serve millions. I learned how to ship, how to scale, and how to build things that work. But I also saw how technology can optimize for engagement without ever asking whether it's making people better."
             imageSrc="/farm-landscapes/pixelated-divine-logos-0.png"
-            imageAlt="Pixelated representation of philosophical foundations with abstract geometric patterns representing rational principles"
+            imageAlt="Rolling farmland with clouds"
             textPosition="top-2/3 left-8 right-8 transform -translate-y-1/8 text-justify"
             disableBreathing={!shouldAnimateCard1}
           />
@@ -245,10 +244,10 @@ const GardenStickyScrollSection: React.FC = () => {
       <section className="sticky top-20 h-screen bg-stone-200 dark:bg-stone-800 z-20">
         <div className="h-full flex items-center justify-center px-0 md:px-8 py-24">
           <FloatingTextCard
-            title="For the theologically minded"
-            description="The Logos is the divine Word through which all things were made, the source of truth that enables authentic human cooperation to take root."
+            title="Japan gave me the roots"
+            description="I walked away to study theology, farm in rural Japan, and ask harder questions. What would technology look like if it served human flourishing — not just growth metrics? The answer started taking shape."
             imageSrc="/farm-landscapes/pixelated-divine-logos-1.png"
-            imageAlt="Pixelated divine light illuminating a cross or sacred symbol with rays extending to growing plants"
+            imageAlt="Seedling breaking through soil"
             textPosition="bottom-8 left-8 w-1/2 flex justify-center"
             disableBreathing={!shouldAnimateCard2}
           />
@@ -259,10 +258,10 @@ const GardenStickyScrollSection: React.FC = () => {
       <section className="sticky top-20 h-screen bg-stone-200 dark:bg-stone-800 z-30">
         <div className="h-full flex items-center justify-center px-0 md:px-8 py-24">
           <FloatingTextCard
-            title="For the practically focused"
-            description="Whether you call it natural law, universal reason, or divine ordering - there are underlying principles that, when cultivated properly, enable human growth."
+            title="Now I'm growing something different"
+            description="Software that helps you own your habits, reason through hard problems, and control your own data. Tools built on the conviction that technology should make people freer and more capable — not more dependent."
             imageSrc="/farm-landscapes/pixelated-divine-logos-2.png"
-            imageAlt="Pixelated scene of people working together in harmony with flourishing gardens and cooperative structures"
+            imageAlt="Lush, abundant landscape"
             textPosition="bottom-8 left-1/2 transform -translate-x-1/2"
             disableBreathing={!shouldAnimateCard3}
           />
@@ -272,323 +271,44 @@ const GardenStickyScrollSection: React.FC = () => {
   )
 }
 
-// Concluding Section Component with Conditional Rendering
-const ConcludingSection: React.FC = () => {
-  const isMobile = useMediaQuery('(max-width: 768px)')
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { 
-    once: true, 
-    margin: "-100px 0px -100px 0px" 
-  })
-
-  // Animation variants for text content
-  const textVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 30 
-    },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.8, 
-        ease: "easeOut" as const
-      }
-    }
-  }
-
-  const staggeredVariants = {
-    hidden: { 
-      opacity: 0 
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2
-      }
-    }
-  }
-  const aboutHeading = "I left Silicon Valley to start a farm in rural Japan"
-  const aboutText = "After years building software products, I realized something was missing. \n\n Technology without wisdom, innovation without roots. \n\n So I moved to rural Japan to rethink how we build."
-
-  if (isMobile) {
-    // Mobile Layout - Stacked vertical
-    return (
-      <section ref={ref} className="bg-stone-900 py-12">
-        {/* Image section */}
-        <div className="h-72 mb-8 rounded-xl overflow-hidden mx-4">
-          <motion.img
-            src="/farmer-programmer.png"
-            alt="Pixelated scene of a programmer working at a desk with a view of pastoral farmland through a window"
-            className="w-full h-full object-contain"
-            style={{ imageRendering: 'pixelated' }}
-            animate={{
-              scale: [1, 1.02, 1],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut" as const
-            }}
-            loading="lazy"
-          />
-        </div>
-
-        {/* Text content with animations */}
-        <motion.div 
-          className="text-center px-4"
-          variants={staggeredVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <motion.h3 
-            className="text-2xl font-bold text-white mb-4"
-            variants={textVariants}
-          >
-            {aboutHeading}
-          </motion.h3>
-          <motion.p 
-            className="text-base text-stone-300 leading-relaxed mb-6"
-            variants={textVariants}
-          >
-            {aboutText}
-          </motion.p>
-          <motion.div
-            variants={textVariants}
-          >
-            <Link 
-              href="/about"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 hover:bg-green-800 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              Read the Full Story
-              <span className="text-lg">→</span>
-            </Link>
-          </motion.div>
-        </motion.div>
-      </section>
-    )
-  }
-
-  // Desktop Layout - Split horizontal
-  return (
-    <section ref={ref} className="bg-stone-800">
-      <div className="grid lg:grid-cols-2 min-h-screen">
-        {/* Left half - Background image */}
-        <div className="relative overflow-hidden">
-          <motion.img
-            src="/farmer-programmer.png"
-            alt="Pixelated scene of a programmer working at a desk with a view of pastoral farmland through a window"
-            className="w-full h-full object-cover"
-            style={{ imageRendering: 'pixelated' }}
-            animate={{
-              scale: [1, 1.03, 1],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut" as const
-            }}
-            loading="lazy"
-          />
-        </div>
-
-        {/* Right half - Text content with animations */}
-        <div className="flex items-center justify-center p-12 bg-stone-900">
-          <motion.div 
-            className="max-w-lg"
-            variants={staggeredVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-          >
-            <motion.h3 
-              className="text-4xl font-bold text-white mb-8 leading-tight"
-              variants={textVariants}
-            >
-            {aboutHeading}
-            </motion.h3>
-            <motion.p 
-              className="text-xl text-stone-300 leading-relaxed mb-8"
-              variants={textVariants}
-            >
-              {aboutText}
-            </motion.p>
-            <motion.div
-              variants={textVariants}
-            >
-              <Link 
-                href="/about"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-green-700 hover:bg-green-800 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              >
-                Read the Full Story
-                <span className="text-xl">→</span>
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// Building Today Section Component
+// Building Today Section (collapsed: quote only). Full section with focus areas lives in components/BuildingTodayFullSection.tsx for reuse.
 const BuildingTodaySection: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { 
-    once: true, 
-    margin: "-100px 0px -100px 0px" 
-  })
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const isInView = useInView(ref, { once: true, margin: "-100px 0px -100px 0px" })
+  const isMobile = useMediaQuery("(max-width: 768px)")
 
-
-  // Disable animations on mobile to prevent scroll jumping
   const containerVariants = {
     hidden: { opacity: isMobile ? 1 : 0 },
     visible: {
       opacity: 1,
-      transition: isMobile ? {} : {
-        staggerChildren: 0.2,
-        delayChildren: 0.1
-      }
-    }
+      transition: isMobile ? {} : { staggerChildren: 0.1, delayChildren: 0.05 },
+    },
   }
 
   const itemVariants = {
-    hidden: { 
-      opacity: isMobile ? 1 : 0, 
-      y: isMobile ? 0 : 20 
-    },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 12 },
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: isMobile ? {} : { 
-        duration: 0.6, 
-        ease: "easeOut" as const
-      }
-    }
+      transition: isMobile ? {} : { duration: 0.5, ease: "easeOut" as const },
+    },
   }
 
   return (
     <section id="mission" ref={ref} className="py-20 bg-stone-100 dark:bg-stone-700 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
-          <motion.div 
+          <motion.div
             className="bg-white dark:bg-stone-800 border-4 border-stone-800 dark:border-stone-600 shadow-lg p-8 transition-all duration-300"
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            {/* Header */}
-            <motion.div className="text-center mb-10" variants={itemVariants}>
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <span className="text-5xl" 
-                  style={{
-                    imageRendering: 'pixelated',
-                  }}>
-                  🚀
-                </span>
-                <h3 className="text-3xl sm:text-4xl font-bold text-stone-800 dark:text-stone-200">
-                  Building Today
-                </h3>
-              </div>
+            <motion.div className="text-center" variants={itemVariants}>
+              <p className="text-xl sm:text-2xl text-stone-800 dark:text-stone-200 leading-relaxed font-semibold">
+                The underutilization of human potential is one of our most critical problems. Technology should amplify what makes us human, not exploit our weaknesses.
+              </p>
             </motion.div>
-
-            <div className="space-y-10">
-              {/* Mission Statement */}
-              <motion.div className="text-center" variants={itemVariants}>
-                <p className="text-xl sm:text-2xl text-stone-800 dark:text-stone-200 leading-relaxed font-semibold">
-                  We&apos;re building technology that serves human flourishing
-                </p>
-              </motion.div>
-
-              {/* Focus Areas Section */}
-              <motion.div className="text-left" variants={itemVariants}>
-                <h4 className="text-2xl font-bold text-stone-800 dark:text-stone-200 mb-8 text-center">
-                  Focus Areas
-                </h4>
-                
-                <div className="grid gap-6">
-                  {/* Blockchain Focus Area */}
-                  <motion.div 
-                    className="group bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 border-2 border-green-200 dark:border-green-700 p-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-green-400 dark:hover:border-green-500"
-                    variants={itemVariants}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-green-600 dark:bg-green-500 border-2 border-stone-800 dark:border-stone-600 flex items-center justify-center text-lg transition-transform duration-300 group-hover:scale-110"
-                        style={{
-                          imageRendering: 'pixelated',
-                        }}>
-                        🔗
-                      </div>
-                      <div className="flex-1">
-                        <h5 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-2">
-                          Blockchain as truth infrastructure
-                        </h5>
-                        <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
-                          Using decentralized consensus to build genuine cooperation between people
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* AI Focus Area */}
-                  <motion.div 
-                    className="group bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border-2 border-blue-200 dark:border-blue-700 p-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-blue-400 dark:hover:border-blue-500"
-                    variants={itemVariants}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 border-2 border-stone-800 dark:border-stone-600 flex items-center justify-center text-lg transition-transform duration-300 group-hover:scale-110"
-                        style={{
-                          imageRendering: 'pixelated',
-                        }}>
-                        🧠
-                      </div>
-                      <div className="flex-1">
-                        <h5 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-2">
-                          AI that amplifies rather than replaces
-                        </h5>
-                        <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
-                          Technology that enhances human reasoning and creativity
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Network States Focus Area */}
-                  <motion.div 
-                    className="group bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 border-2 border-purple-200 dark:border-purple-700 p-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-purple-400 dark:hover:border-purple-500"
-                    variants={itemVariants}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-purple-600 dark:bg-purple-500 border-2 border-stone-800 dark:border-stone-600 flex items-center justify-center text-lg transition-transform duration-300 group-hover:scale-110"
-                        style={{
-                          imageRendering: 'pixelated',
-                        }}>
-                        🌐
-                      </div>
-                      <div className="flex-1">
-                        <h5 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-stone-200 mb-2">
-                          Network states and coordination
-                        </h5>
-                        <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
-                          New models for human organization that unlock human capital
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-
-              {/* Impact Statement */}
-              <motion.div 
-                className="text-center pt-6 border-t border-stone-300 dark:border-stone-500"
-                variants={itemVariants}
-              >
-                <p className="text-lg sm:text-xl text-stone-800 dark:text-stone-200 leading-relaxed font-semibold">
-                  The underutilization of human potential is one of our most critical problems. Technology should amplify what makes us human, not exploit our weaknesses.
-                </p>
-              </motion.div>
-            </div>
           </motion.div>
         </div>
       </div>
@@ -602,7 +322,7 @@ export default function HonestFarmingLanding() {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
-  
+
 
   useEffect(() => {
     // Check for saved theme preference or default to dark mode
@@ -785,53 +505,66 @@ export default function HonestFarmingLanding() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-32 min-h-[64vh] bg-gradient-to-b from-stone-100 to-stone-200 dark:from-slate-700 dark:to-slate-800 transition-colors duration-300 overflow-hidden">
-        {/* TruthExchange Network Background Animation */}
-        <div className="absolute inset-0 opacity-50 z-1">
-          <TruthExchangeNetwork
-            isDarkMode={isDarkMode}
-            className="w-full h-full hero-network-canvas"
-            {...heroNetworkConfig}
-          />
-        </div>
-        <div className="container mx-auto px-4 relative z-10 hero-content">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div className="space-y-6">
-              <h2 className="hero-title text-5xl sm:text-6xl lg:text-7xl font-bold text-stone-800 dark:text-stone-200 leading-tight transition-colors duration-300">
-                Technology for
-                <br />
-                <span className="text-green-700 dark:text-green-400">Human Growth</span>
-              </h2>
-              <p className="hero-subtitle text-xl sm:text-2xl text-stone-600 dark:text-stone-400 leading-relaxed transition-colors duration-300 max-w-2xl mx-auto">
-                Cultivating cooperation with the divine Logos
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
-                size="lg"
-                onClick={() => scrollToSection('newsletter')}
-                className="bg-green-700 dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+      <section className="relative min-h-[64vh] w-full overflow-hidden bg-stone-700 dark:bg-stone-700 transition-colors duration-300 py-12 lg:py-0 px-4 lg:px-0">
+        <div className="grid w-full min-h-[64vh] lg:grid-cols-2 gap-0 lg:gap-12">
+          {/* Image side */}
+          <div className="relative order-2 lg:order-1 overflow-hidden flex items-center justify-center lg:pl-4 xl:pl-8">
+            <motion.img
+              src="/farmer-programmer.png"
+              alt="Pixelated scene of a programmer working at a desk with a view of pastoral farmland through a window"
+              className="w-full h-full object-cover max-h-[50vh] lg:max-h-none lg:absolute inset-0 lg:w-full lg:h-full"
+              style={{ imageRendering: "pixelated" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              loading="eager"
+            />
+          </div>
+          {/* Text side */}
+          <div className="order-1 lg:order-2 flex flex-col justify-center text-center lg:text-left py-8 lg:py-16 lg:pr-4 xl:pr-8 lg:pl-0">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="space-y-6"
+            >
+              <motion.h2
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-100 leading-tight transition-colors duration-300"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
-                Join the Community
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => scrollToSection('divine-logos')}
-                className="border-2 border-stone-800 dark:border-stone-600 text-stone-800 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 font-bold px-8 py-4 text-lg bg-transparent transition-all duration-300 hover:scale-105"
+                I left Silicon Valley to start a farm in rural Japan
+              </motion.h2>
+              <motion.p
+                className="text-lg sm:text-xl text-stone-200 leading-relaxed transition-colors duration-300 whitespace-pre-line"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.35 }}
               >
-                Learn More
-              </Button>
-            </div>
+                Ex-Coinbase engineer gone full solopreneur. I build products that build better people — software that enables human autonomy and cooperation.{"\n\n"}
+                When I'm not shipping, I'm farming sweet potatoes and edamame in the countryside.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-green-700 hover:bg-green-800 dark:bg-green-600 dark:hover:bg-green-700 text-white border-2 border-stone-800 dark:border-stone-600 shadow-lg font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                >
+                  Read the Full Story
+                  <span className="text-lg">→</span>
+                </Link>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Garden Sticky Scroll Section */}
       <GardenStickyScrollSection />
-
-      {/* Concluding Section */}
-      <ConcludingSection />
 
       {/* Building Today Section */}
       <BuildingTodaySection />
@@ -1239,7 +972,7 @@ export default function HonestFarmingLanding() {
           background: rgba(255, 255, 255, 0.95);
         }
 
-        /* Divine Logos card styles */
+        /* How I got here card styles */
         .divine-logos-image-container {
           position: relative;
           overflow: hidden;
@@ -1253,72 +986,11 @@ export default function HonestFarmingLanding() {
           transform: scale(1.05);
         }
 
-        /* Ensure proper aspect ratio for Divine Logos images */
+        /* Ensure proper aspect ratio for How I got here images */
         @media (min-width: 768px) {
           .divine-logos-image-container img {
             aspect-ratio: 16/10;
           }
-        }
-
-        .hero-network-canvas {
-          opacity: 0.5;
-          z-index: 1;
-        }
-
-        .hero-content {
-          position: relative;
-          z-index: 10;
-        }
-
-        /* Hero text styling with earthy, solarpunk-inspired shadows */
-        .hero-title {
-          text-shadow: 
-            2px 2px 4px rgba(101, 69, 34, 0.8),    /* Warm brown earth */
-            -1px -1px 2px rgba(92, 51, 23, 0.6) !important;   /* Darker earth tone */
-          letter-spacing: -0.02em;
-        }
-        
-        .hero-subtitle {
-          text-shadow: 1px 1px 3px rgba(101, 69, 34, 0.7) !important;  /* Warm brown earth */
-          letter-spacing: 0.01em;
-        }
-
-        /* Dark mode earthy text shadows */
-        .dark .hero-title {
-          text-shadow: 
-            2px 2px 4px rgba(22, 101, 52, 0.8),    /* Deep forest green */
-            -1px -1px 2px rgba(20, 83, 45, 0.6) !important;   /* Forest shadow */
-        }
-        
-        .dark .hero-subtitle {
-          text-shadow: 1px 1px 3px rgba(22, 101, 52, 0.7) !important;  /* Deep forest green */
-        }
-
-        /* Ensure span elements within hero title inherit the shadow */
-        .hero-title span {
-          text-shadow: inherit !important;
-        }
-        
-        .dark .hero-title span {
-          text-shadow: inherit !important;
-        }
-
-        /* Additional backdrop for enhanced readability */
-        .hero-content::before {
-          content: '';
-          position: absolute;
-          top: -2rem;
-          left: -2rem;
-          right: -2rem;
-          bottom: -2rem;
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(1px);
-          border-radius: 1rem;
-          z-index: -1;
-        }
-
-        .dark .hero-content::before {
-          background: rgba(45, 55, 72, 0.15); /* Matches network background */
         }
 
         /* Loading state for farm landscapes */
@@ -1335,32 +1007,6 @@ export default function HonestFarmingLanding() {
 
         /* Accessibility: Reduced motion preferences */
         @media (prefers-reduced-motion: reduce) {
-          .hero-network-canvas {
-            display: none;
-          }
-          
-          /* Show static backdrop for hero when animation is disabled */
-          .hero-network-canvas + .hero-content::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-              radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 80% 70%, rgba(22, 163, 74, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 40% 80%, rgba(21, 128, 61, 0.04) 0%, transparent 50%);
-            z-index: -2;
-          }
-          
-          .dark .hero-network-canvas + .hero-content::after {
-            background: 
-              radial-gradient(circle at 20% 30%, rgba(104, 211, 145, 0.06) 0%, transparent 50%),
-              radial-gradient(circle at 80% 70%, rgba(72, 187, 120, 0.06) 0%, transparent 50%),
-              radial-gradient(circle at 40% 80%, rgba(52, 168, 83, 0.03) 0%, transparent 50%);
-          }
-          
           .farm-landscape-card {
             /* Show static versions only */
           }

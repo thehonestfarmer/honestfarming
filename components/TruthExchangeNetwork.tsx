@@ -142,31 +142,34 @@ class KnowledgeNode implements NodePosition, NodeVelocity, NodeProperties {
   public hubStrength: number;
   public colorEvolutionPhase: number;
 
-  constructor(x: number, y: number, id: number) {
+  constructor(x: number, y: number, id: number, networkConfig?: Partial<NetworkConfig>) {
     this.x = x;
     this.y = y;
     this.id = id;
-    
+    const particleColors = networkConfig?.particleColors ?? config.particleColors;
+    const particleSize = networkConfig?.particleSize ?? config.particleSize;
+    const baseSpeed = networkConfig?.baseSpeed ?? config.baseSpeed;
+
     // Central node (id 0) has different properties
     if (id === 0) {
       this.vx = 0; // Central node stays stationary
       this.vy = 0;
       this.angle = 0;
       this.angularVelocity = 0;
-      this.baseSize = config.particleSize * 3; // 3x larger
+      this.baseSize = particleSize * 3; // 3x larger
       this.size = this.baseSize;
-      this.color = config.particleColors[0]; // Start with first color
+      this.color = particleColors[0]; // Start with first color
       this.isHub = true;
       this.hubStrength = 1.0;
       this.strength = 1.0;
     } else {
-      this.vx = (Math.random() - 0.5) * config.baseSpeed;
-      this.vy = (Math.random() - 0.5) * config.baseSpeed;
+      this.vx = (Math.random() - 0.5) * baseSpeed;
+      this.vy = (Math.random() - 0.5) * baseSpeed;
       this.angle = Math.random() * Math.PI * 2;
       this.angularVelocity = (Math.random() - 0.5) * 0.02;
-      this.baseSize = config.particleSize;
+      this.baseSize = particleSize;
       this.size = this.baseSize;
-      this.color = config.particleColors[Math.floor(Math.random() * config.particleColors.length)];
+      this.color = particleColors[Math.floor(Math.random() * particleColors.length)];
       this.isHub = false;
       this.hubStrength = 0;
       this.strength = Math.random();
@@ -295,11 +298,12 @@ class KnowledgeNode implements NodePosition, NodeVelocity, NodeProperties {
     }
     
     // Color evolution only for central node (id 0)
+    const particleColors = networkConfig?.particleColors ?? config.particleColors;
     let drawColor = this.color;
     if (this.id === 0) {
       const evolutionFactor = (Math.sin(this.colorEvolutionPhase) + 1) / 2;
-      const colorIndex = Math.floor(evolutionFactor * config.particleColors.length);
-      drawColor = config.particleColors[colorIndex];
+      const colorIndex = Math.floor(evolutionFactor * particleColors.length);
+      drawColor = particleColors[colorIndex];
       
       // Extra visual enhancement for central node
       const glowIntensity = (Math.sin(this.pulse) + 1) / 2;
@@ -398,9 +402,12 @@ class ConnectionRenderer {
       lineWidth += 1;
     }
     
+    const connectionColor = networkConfig?.connectionColor ?? config.connectionColor;
+    const connectionColorDark = networkConfig?.connectionColorDark ?? config.connectionColorDark;
+
     // Enhanced glow effect for hero networks (reduced for text readability)
     if (networkConfig?.connectionGlow) {
-      ctx.strokeStyle = isDarkMode ? config.connectionColorDark : config.connectionColor;
+      ctx.strokeStyle = isDarkMode ? connectionColorDark : connectionColor;
       ctx.globalAlpha = (connectionStrength * opacity) * 0.2;
       ctx.lineWidth = lineWidth + 2;
       ctx.lineCap = 'round';
@@ -412,7 +419,7 @@ class ConnectionRenderer {
     }
     
     // Draw standard glow effect (reduced opacity)
-    ctx.strokeStyle = isDarkMode ? config.connectionColorDark : config.connectionColor;
+    ctx.strokeStyle = isDarkMode ? connectionColorDark : connectionColor;
     ctx.globalAlpha = (connectionStrength * opacity) * 0.2;
     ctx.lineWidth = lineWidth + 1;
     ctx.lineCap = 'round';
@@ -561,7 +568,7 @@ class TruthExchangeNetwork {
         x = Math.random() * canvasWidth;
         y = Math.random() * canvasHeight;
       }
-      this.nodes.push(new KnowledgeNode(x, y, i));
+      this.nodes.push(new KnowledgeNode(x, y, i, this.networkConfig));
     }
   }
   
@@ -578,21 +585,27 @@ class TruthExchangeNetwork {
     const canvasWidth = rect.width;
     const canvasHeight = rect.height;
     
-    // Create subtle earth-tone "rich soil" background
-    if (this.isDarkMode) {
-      // Dark mode: Deep earth tones with low opacity
-      const darkSoilGradient = this.ctx.createLinearGradient(0, 0, 0, canvasHeight);
-      darkSoilGradient.addColorStop(0, 'rgba(120, 113, 108, 0.2)'); // stone-500 with opacity
-      darkSoilGradient.addColorStop(1, 'rgba(87, 83, 74, 0.3)');    // stone-600 with opacity
-      this.ctx.fillStyle = darkSoilGradient;
+    // Background: use config colors when provided, else subtle earth-tone gradient
+    const bgColor = this.isDarkMode
+      ? (this.networkConfig.backgroundColorDark ?? null)
+      : (this.networkConfig.backgroundColor ?? null);
+    if (bgColor) {
+      this.ctx.fillStyle = bgColor;
+      this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     } else {
-      // Light mode: Warm stone/soil tones with low opacity
-      const lightSoilGradient = this.ctx.createLinearGradient(0, 0, 0, canvasHeight);
-      lightSoilGradient.addColorStop(0, 'rgba(120, 113, 108, 0.15)'); // stone-500 with opacity
-      lightSoilGradient.addColorStop(1, 'rgba(87, 83, 74, 0.25)');    // stone-600 with opacity
-      this.ctx.fillStyle = lightSoilGradient;
+      if (this.isDarkMode) {
+        const darkSoilGradient = this.ctx.createLinearGradient(0, 0, 0, canvasHeight);
+        darkSoilGradient.addColorStop(0, 'rgba(120, 113, 108, 0.2)');
+        darkSoilGradient.addColorStop(1, 'rgba(87, 83, 74, 0.3)');
+        this.ctx.fillStyle = darkSoilGradient;
+      } else {
+        const lightSoilGradient = this.ctx.createLinearGradient(0, 0, 0, canvasHeight);
+        lightSoilGradient.addColorStop(0, 'rgba(120, 113, 108, 0.15)');
+        lightSoilGradient.addColorStop(1, 'rgba(87, 83, 74, 0.25)');
+        this.ctx.fillStyle = lightSoilGradient;
+      }
+      this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     }
-    this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
     // Update connections based on distance and memory
     this.updateConnections();
@@ -751,6 +764,11 @@ export default function TruthExchangeNetworkComponent({
     networkOptions.colorEvolution,
     networkOptions.focusedClustering,
     networkOptions.businessTheme,
+    networkOptions.backgroundColor,
+    networkOptions.backgroundColorDark,
+    JSON.stringify(networkOptions.particleColors),
+    networkOptions.connectionColor,
+    networkOptions.connectionColorDark,
     networkOptions.mobile?.particleCount,
     networkOptions.mobile?.maxDistance,
     networkOptions.tablet?.particleCount,
