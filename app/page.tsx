@@ -543,7 +543,7 @@ export default function HonestFarmingLanding() {
                 transition={{ duration: 0.5, delay: 0.35 }}
               >
                 Ex-Coinbase engineer gone full solopreneur. I build products that build better people — software that enables human autonomy and cooperation.{"\n\n"}
-                When I'm not shipping, I'm farming sweet potatoes and edamame in the countryside.
+                When I&apos;m not shipping, I&apos;m farming sweet potatoes and edamame in the countryside.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0 }}
